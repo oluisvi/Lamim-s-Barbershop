@@ -2,8 +2,9 @@
 
 import { create } from "zustand";
 import type { PanelId } from "@/data/hotspots";
+import { clampScrollProgress } from "@/lib/scrollJourney";
 
-export type ExperienceMode = "idle" | "intro" | "free" | "tour";
+export type ExperienceMode = "idle" | "intro" | "explore";
 export type QualityTier = "high" | "balanced" | "low";
 
 type ExperienceState = {
@@ -13,7 +14,7 @@ type ExperienceState = {
   soundEnabled: boolean;
   reducedMotion: boolean;
   quality: QualityTier;
-  movement: { x: number; z: number };
+  scrollProgress: number;
   tourCompleted: boolean;
   setMode: (mode: ExperienceMode) => void;
   openPanel: (panel: PanelId) => void;
@@ -22,7 +23,7 @@ type ExperienceState = {
   toggleSound: () => void;
   setReducedMotion: (value: boolean) => void;
   setQuality: (quality: QualityTier) => void;
-  setMovement: (movement: { x: number; z: number }) => void;
+  setScrollProgress: (progress: number) => void;
   completeTour: () => void;
   dismissTourResolution: () => void;
 };
@@ -34,16 +35,16 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
   soundEnabled: false,
   reducedMotion: false,
   quality: "balanced",
-  movement: { x: 0, z: 0 },
+  scrollProgress: 0,
   tourCompleted: false,
-  setMode: (mode) => set({ mode }),
+  setMode: (mode) => set(mode === "idle" ? { mode, scrollProgress: 0, tourCompleted: false, menuOpen: false } : { mode }),
   openPanel: (activePanel) => set({ activePanel, menuOpen: false }),
   closePanel: () => set({ activePanel: "none" }),
   setMenuOpen: (menuOpen) => set({ menuOpen }),
   toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
   setReducedMotion: (reducedMotion) => set({ reducedMotion }),
   setQuality: (quality) => set({ quality }),
-  setMovement: (movement) => set({ movement }),
+  setScrollProgress: (scrollProgress) => set({ scrollProgress: clampScrollProgress(scrollProgress) }),
   completeTour: () => set({ tourCompleted: true }),
-  dismissTourResolution: () => set({ tourCompleted: false })
+  dismissTourResolution: () => set({ tourCompleted: false }),
 }));

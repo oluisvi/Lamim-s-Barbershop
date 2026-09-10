@@ -1,45 +1,43 @@
 "use client";
 
-import { Compass, Play, X } from "lucide-react";
+import { ChevronDown, Compass } from "lucide-react";
 import { business } from "@/data/business";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
-import { trackEvent } from "@/lib/analytics";
+import { getJourneyScene } from "@/lib/scrollJourney";
 
 export function BottomHud() {
   const mode = useExperienceStore((s) => s.mode);
-  const setMode = useExperienceStore((s) => s.setMode);
+  const progress = useExperienceStore((s) => s.scrollProgress);
 
   if (mode === "idle" || mode === "intro") return null;
 
+  const scene = getJourneyScene(progress);
+  const percent = Math.round(progress * 100);
+  const showHint = progress < 0.14;
+
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 flex items-end justify-between gap-3 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-6">
-      <div className="pointer-events-auto hidden rounded-full border border-white/10 bg-black/30 px-4 py-2 text-[9px] uppercase tracking-[0.17em] text-[#a99984] backdrop-blur md:block">
-        {mode === "tour" ? "Tour guiado em andamento · ESC para sair" : "WASD / setas para andar · arraste para olhar"}
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-6">
+      <div className="absolute bottom-[max(.8rem,env(safe-area-inset-bottom))] left-4 right-4 h-px overflow-hidden bg-white/10 md:left-6 md:right-6">
+        <div className="h-full bg-[#c79d5f] transition-[width] duration-150 ease-out" style={{ width: `${percent}%` }} />
       </div>
 
-      <div className="pointer-events-auto ml-auto flex gap-2">
-        {mode === "tour" ? (
-          <button
-            type="button"
-            onClick={() => setMode("free")}
-            className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-black/40 px-4 text-[10px] uppercase tracking-[0.14em] text-[#eee4d6] backdrop-blur"
-          >
-            <X size={14} /> Sair do tour
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => { trackEvent("guided_tour_started"); setMode("tour"); }}
-            className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-black/40 px-4 text-[10px] uppercase tracking-[0.14em] text-[#eee4d6] backdrop-blur transition hover:border-white/30"
-          >
-            <Play size={13} /> Fazer o tour
-          </button>
-        )}
+      <div className="flex items-end justify-between gap-3 pb-3">
+        <div className="min-w-0">
+          <div className="text-[8px] uppercase tracking-[0.2em] text-[#746958] md:text-[9px]">{scene.label}</div>
+          {showHint && (
+            <div className="mt-2 flex items-center gap-2 text-[9px] uppercase tracking-[0.17em] text-[#b4a58f] md:text-[10px]">
+              <span className="hidden md:inline">Role para caminhar</span>
+              <span className="md:hidden">Deslize para caminhar</span>
+              <ChevronDown size={13} className="animate-bounce" />
+            </div>
+          )}
+        </div>
+
         <a
           href={business.fresha.bookingUrl}
           target="_blank"
           rel="noreferrer"
-          className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-full bg-[#f3eadb] px-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0e0c0a] sm:hidden"
+          className="focus-ring pointer-events-auto inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-[#f3eadb] px-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0e0c0a] sm:hidden"
         >
           <Compass size={13} /> Agendar
         </a>

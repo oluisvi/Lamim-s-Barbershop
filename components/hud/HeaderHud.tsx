@@ -27,7 +27,12 @@ export function HeaderHud() {
         <div className="pointer-events-auto flex items-center gap-4">
           <button
             type="button"
-            onClick={() => mode === "idle" ? undefined : useExperienceStore.getState().setMode("idle")}
+            onClick={() => {
+              if (mode === "idle") return;
+              window.scrollTo({ top: 0, behavior: "auto" });
+              useExperienceStore.getState().setScrollProgress(0);
+              useExperienceStore.getState().setMode("idle");
+            }}
             className="focus-ring text-left"
             aria-label="Voltar ao início"
           >

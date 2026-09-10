@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "validate:source": "node scripts/validate-source.mjs"
+    "validate:source": "node scripts/validate-source.mjs",
+    "test:scroll": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.7",

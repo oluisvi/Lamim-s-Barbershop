@@ -8,7 +8,7 @@ MVP imersivo para a **Barbearia Lamim's**, em Jacareí — SP. O conceito do pro
 
 - Entrada cinematográfica **guided-first → free exploration**.
 - Ambiente 3D procedural e modular, construído para ser substituído por um modelo real posteriormente.
-- Navegação desktop com WASD/setas + arraste para olhar.
+- Navegação cinematográfica por scroll, com caminho de câmera pré-programado e reversível.
 - Controles próprios para mobile.
 - Hotspots espaciais para serviços, equipe, história, reviews, ambiente real e localização.
 - Tour guiado opcional com resolução final **“Agora só falta você”**.
@@ -75,22 +75,21 @@ Quando fotos, vídeo 360°, planta, LiDAR ou modelo final forem aprovados pelo c
 NEXT_PUBLIC_DEMO_MODE=false
 ```
 
-A troca do ambiente demonstrativo pelo ambiente real deve preservar a arquitetura de câmera, tour, hotspots, HUD, conteúdo e conversão.
+A troca do ambiente demonstrativo pelo ambiente real deve preservar a arquitetura de câmera, percurso por scroll, hotspots, HUD, conteúdo e conversão.
 
 ## Controles
 
 ### Desktop
 
-- `WASD` ou setas: caminhar
-- arrastar sobre a cena: olhar ao redor
-- `ESC`: sair do tour guiado
-- hotspots: abrir conteúdo contextual
+- Scroll do mouse / trackpad: avançar e recuar pelo percurso 3D
+- Hotspots contextuais: aparecem conforme a câmera chega a cada ponto da experiência
+- CTA de agendamento permanece acessível durante todo o percurso
 
 ### Mobile
 
-- direcional virtual: caminhar
-- arrastar a cena: olhar ao redor
-- botões de tour/agendamento permanecem acessíveis sem exigir o 3D
+- Swipe vertical no mobile: controla o mesmo percurso de câmera, sem joystick
+- Movimento e rotação são suavizados para reduzir desconforto e evitar sensação de jogo
+- Interface reduzida: hotspot contextual + agendamento, sem controles extras ocupando a tela
 
 ## Estrutura principal
 

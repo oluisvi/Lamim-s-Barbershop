@@ -23,7 +23,7 @@ export function SceneCanvas() {
       camera={{ position: [0, 1.65, 13.2], fov: 64, near: 0.1, far: 60 }}
       gl={{ antialias: quality !== "low", alpha: false, powerPreference: "high-performance" }}
       className="!absolute !inset-0"
-      style={{ touchAction: "none" }}
+      style={{ touchAction: "pan-y" }}
     >
       <Suspense fallback={<SceneLoading />}>
         <BarbershopEnvironment />
