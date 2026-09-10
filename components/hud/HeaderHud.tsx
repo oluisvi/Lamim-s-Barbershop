@@ -21,6 +21,8 @@ export function HeaderHud() {
   const toggleSound = useExperienceStore((s) => s.toggleSound);
   const openPanel = useExperienceStore((s) => s.openPanel);
   const experienceActive = mode !== "idle";
+  const experienceReady = mode === "explore";
+  const showBooking = mode !== "intro";
 
   return (
     <>
@@ -47,7 +49,7 @@ export function HeaderHud() {
         </div>
 
         <div className="pointer-events-auto flex items-center gap-2">
-          {experienceActive && (
+          {experienceReady && (
             <>
               <button
                 type="button"
@@ -73,14 +75,14 @@ export function HeaderHud() {
             href={business.fresha.bookingUrl}
             target="_blank"
             rel="noreferrer"
-            className="focus-ring hidden min-h-11 items-center rounded-full bg-[#f4e8d6] px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#211b16] shadow-[0_8px_24px_rgba(30,24,18,.16)] transition hover:bg-white sm:inline-flex"
+            className={`focus-ring hidden min-h-11 items-center rounded-full bg-[#f4e8d6] px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#211b16] shadow-[0_8px_24px_rgba(30,24,18,.16)] transition-all duration-500 hover:bg-white sm:inline-flex ${showBooking ? "opacity-100 translate-y-0" : "pointer-events-none -translate-y-1 opacity-0"}`}
           >
             Agendar horário
           </a>
         </div>
       </header>
 
-      {experienceActive && menuOpen && (
+      {experienceReady && menuOpen && (
         <nav className="absolute right-6 top-24 z-[60] hidden w-[min(340px,calc(100vw-48px))] rounded-[24px] border border-[#eadfce]/16 bg-[#29231d]/95 p-3 shadow-2xl backdrop-blur-xl sm:block">
           <div className="px-3 pb-3 pt-2 text-[9px] uppercase tracking-[0.24em] text-[#c9b89f]">Navegação</div>
           {items.map(([label, panel]) => (

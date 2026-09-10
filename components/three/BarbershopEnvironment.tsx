@@ -4,7 +4,7 @@
 
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
-import { useExperienceStore } from "@/hooks/useExperienceStore";
+import { useExperienceStore, type QualityTier } from "@/hooks/useExperienceStore";
 
 type Vec3 = [number, number, number];
 
@@ -54,7 +54,7 @@ function ProductBottle({ position, tone = "#2e2925", height = 0.34 }: { position
   );
 }
 
-function Station({ x }: { x: number }) {
+function Station({ x, showStationAccent }: { x: number; showStationAccent: boolean }) {
   return (
     <group position={[x, 0, -4.78]}>
       <RoundedBox args={[2.55, 2.55, 0.14]} radius={0.12} smoothness={3} position={[0, 2.65, 0.06]}>
@@ -78,7 +78,7 @@ function Station({ x }: { x: number }) {
         <boxGeometry args={[0.08, 0.38, 0.05]} />
         <meshStandardMaterial color="#2c2824" metalness={0.55} roughness={0.27} />
       </mesh>
-      <pointLight position={[0, 3.96, 0.65]} intensity={4.4} distance={4} color="#ffe3bd" decay={2} />
+      {showStationAccent && <pointLight position={[0, 3.96, 0.65]} intensity={3.6} distance={3.8} color="#ffe3bd" decay={2} />}
     </group>
   );
 }
@@ -266,7 +266,9 @@ function WaitingArea() {
   );
 }
 
-function CeilingLights({ lowQuality }: { lowQuality: boolean }) {
+function CeilingLights({ quality }: { quality: QualityTier }) {
+  const fixtureXs = quality === "low" ? [0] : [-3.4, 0, 3.4];
+
   return (
     <group position={[0, 4.38, 0]}>
       {[-4.8, -1.6, 1.6, 4.8, 8].map((z) => (
@@ -275,15 +277,20 @@ function CeilingLights({ lowQuality }: { lowQuality: boolean }) {
             <boxGeometry args={[9.4, 0.05, 0.08]} />
             <meshStandardMaterial color="#51473f" />
           </mesh>
-          {(lowQuality ? [0] : [-3.4, 0, 3.4]).map((x) => (
-            <group key={x} position={[x, -0.05, 0]}>
-              <mesh>
-                <cylinderGeometry args={[0.15, 0.2, 0.2, 16]} />
-                <meshStandardMaterial color="#3b342f" />
-              </mesh>
-              <pointLight position={[0, -0.3, 0]} intensity={7.2} distance={4.8} color="#ffe2bd" decay={2} />
-            </group>
-          ))}
+          {fixtureXs.map((x) => {
+            const lightEnabled = quality === "high" || (quality === "balanced" && x === 0);
+            return (
+              <group key={x} position={[x, -0.05, 0]}>
+                <mesh>
+                  <cylinderGeometry args={[0.15, 0.2, 0.2, 14]} />
+                  <meshStandardMaterial color="#3b342f" emissive="#6a5138" emissiveIntensity={lightEnabled ? 0.25 : 0.08} />
+                </mesh>
+                {lightEnabled && (
+                  <pointLight position={[0, -0.3, 0]} intensity={quality === "high" ? 5.6 : 4.4} distance={4.5} color="#ffe2bd" decay={2} />
+                )}
+              </group>
+            );
+          })}
         </group>
       ))}
     </group>
@@ -302,6 +309,8 @@ function Rug() {
 export function BarbershopEnvironment() {
   const quality = useExperienceStore((s) => s.quality);
   const lowQuality = quality === "low";
+  const showStationAccent = quality === "high";
+  const shadowMapSize = quality === "high" ? 1024 : 512;
 
   return (
     <group>
@@ -309,7 +318,7 @@ export function BarbershopEnvironment() {
       <fog attach="fog" args={["#4a3d32", 16, 33]} />
       <hemisphereLight intensity={1.25} color="#fff1dc" groundColor="#5a4635" />
       <ambientLight intensity={0.46} />
-      <directionalLight position={[4, 9, 8]} intensity={2.25} color="#fff4e2" castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
+      <directionalLight position={[4, 9, 8]} intensity={2.15} color="#fff4e2" castShadow={!lowQuality} shadow-mapSize-width={shadowMapSize} shadow-mapSize-height={shadowMapSize} />
       <directionalLight position={[-5, 4, 9]} intensity={0.75} color="#d5e2df" />
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, -0.02, 2]}>
@@ -353,11 +362,11 @@ export function BarbershopEnvironment() {
       <Plant position={[5.9, 0, 1.8]} scale={0.95} />
       <Plant position={[-5.75, 0, 7.7]} scale={0.8} />
       <ProductShelf />
-      <CeilingLights lowQuality={lowQuality} />
+      <CeilingLights quality={quality} />
 
-      <Station x={-3.8} />
-      <Station x={0} />
-      <Station x={3.8} />
+      <Station x={-3.8} showStationAccent={showStationAccent} />
+      <Station x={0} showStationAccent={showStationAccent} />
+      <Station x={3.8} showStationAccent={showStationAccent} />
       <BarberChair position={[-3.8, 0, -2.15]} />
       <BarberChair position={[0, 0, -2.15]} />
       <BarberChair position={[3.8, 0, -2.15]} />

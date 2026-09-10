@@ -9,10 +9,10 @@ MVP imersivo para a **Barbearia Lamim's**, em Jacareí — SP. O conceito do pro
 - Entrada cinematográfica **guided-first → free exploration**.
 - Ambiente 3D procedural e modular, construído para ser substituído por um modelo real posteriormente.
 - Navegação cinematográfica por scroll, com caminho de câmera pré-programado e reversível.
-- Controles próprios para mobile.
+- Navegação espacial exclusivamente por scroll/swipe vertical, sem controles de movimento na tela.
 - Hotspots espaciais para serviços, equipe, história, reviews, ambiente real e localização.
 - Tour guiado opcional com resolução final **“Agora só falta você”**.
-- CTA de agendamento Fresha persistente.
+- CTA de agendamento disponível na entrada, nos painéis informativos e no fechamento da experiência.
 - Modo informativo acessível em `/info` com conteúdo em DOM real.
 - Fallback para dispositivos sem WebGL.
 - Quality tiers `high`, `balanced` e `low` escolhidos de forma adaptativa.
@@ -89,7 +89,7 @@ A troca do ambiente demonstrativo pelo ambiente real deve preservar a arquitetur
 
 - Swipe vertical no mobile: controla o mesmo percurso de câmera, sem joystick
 - Movimento e rotação são suavizados para reduzir desconforto e evitar sensação de jogo
-- Interface reduzida: hotspot contextual + agendamento, sem controles extras ocupando a tela
+- Interface reduzida durante o passeio: sem joystick, sem botões de movimento e sem ações persistentes cobrindo o 3D
 
 ## Estrutura principal
 
@@ -234,3 +234,15 @@ A referência conceitual é `home-3d-three.vercel.app`, usada para estudar o pri
 - Mobile: vertical swipe/scroll controls the same path; no joystick or persistent action buttons during exploration.
 - The initial booking CTA remains available on larger screens; experience controls appear only after entry.
 - Low-quality/mobile rendering reduces dynamic lights and secondary props while preserving the spatial composition.
+
+
+## Motion & performance — scroll journey v2
+
+- Scroll para baixo avança pelo ambiente; scroll para cima retorna pelo mesmo percurso. Não há navegação por teclado, joystick ou controles espaciais paralelos.
+- A câmera usa uma curva Catmull-Rom centrípeta com amostragem por comprimento de arco (`getPointAt`), evitando mudanças artificiais de velocidade entre waypoints.
+- A orientação vem da tangente frontal da própria curva (`getTangentAt`) com desvios laterais pequenos, evitando a sensação de caminhar de costas.
+- O movimento possui uma única camada de damping no progresso; a posição não recebe uma segunda interpolação atrasada.
+- A entrada possui um percurso 3D dedicado partindo do exterior da fachada, com FOV responsivo e overlay cinematográfico leve em CSS.
+- Mobile usa FOV mais aberto, jornada vertical menor e qualidade LOW por padrão em ponteiros coarse para reduzir custo de GPU.
+- DPR, antialiasing, sombras e luzes pontuais escalam por tier HIGH / BALANCED / LOW.
+- O listener de scroll é passivo e lê `window.scrollY`; a distância total é recalculada apenas em resize/ResizeObserver para evitar layout reads durante cada gesto.

@@ -21,6 +21,7 @@ const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then(
 export function ExperienceShell() {
   const [webgl, setWebgl] = useState<boolean | null>(null);
   const journeyRef = useRef<HTMLElement | null>(null);
+  const scrollDistanceRef = useRef(1);
   const soundEnabled = useExperienceStore((s) => s.soundEnabled);
   const setReducedMotion = useExperienceStore((s) => s.setReducedMotion);
   const setQuality = useExperienceStore((s) => s.setQuality);
@@ -42,7 +43,7 @@ export function ExperienceShell() {
     const memory = nav.deviceMemory || 4;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
     if (cores >= 8 && memory >= 6 && !coarsePointer) setQuality("high");
-    else if (cores <= 4 || memory <= 3) setQuality("low");
+    else if (coarsePointer || cores <= 4 || memory <= 3) setQuality("low");
     else setQuality("balanced");
 
     return () => media.removeEventListener?.("change", listener);
@@ -52,7 +53,7 @@ export function ExperienceShell() {
     const audio = audioRef.current;
     if (!audio) return;
     if (soundEnabled) {
-      audio.volume = 0.14;
+      audio.volume = 0.12;
       audio.play().catch(() => undefined);
     } else {
       audio.pause();
@@ -63,19 +64,38 @@ export function ExperienceShell() {
     const lockPage = mode !== "explore" || activePanel !== "none" || tourCompleted;
     const previousHtmlOverflow = document.documentElement.style.overflow;
     const previousBodyOverflow = document.body.style.overflow;
+    const previousOverscroll = document.body.style.overscrollBehaviorY;
 
     document.documentElement.style.overflow = lockPage ? "hidden" : "";
     document.body.style.overflow = lockPage ? "hidden" : "";
-
-    if (mode === "explore" && activePanel === "none" && !tourCompleted) {
-      requestAnimationFrame(() => window.scrollTo({ top: window.scrollY, behavior: "auto" }));
-    }
+    document.body.style.overscrollBehaviorY = mode === "explore" ? "none" : previousOverscroll;
 
     return () => {
       document.documentElement.style.overflow = previousHtmlOverflow;
       document.body.style.overflow = previousBodyOverflow;
+      document.body.style.overscrollBehaviorY = previousOverscroll;
     };
   }, [mode, activePanel, tourCompleted]);
+
+  useEffect(() => {
+    const measure = () => {
+      const element = journeyRef.current;
+      if (!element) return;
+      scrollDistanceRef.current = Math.max(element.offsetHeight - window.innerHeight, 1);
+    };
+
+    measure();
+    const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    if (journeyRef.current) observer?.observe(journeyRef.current);
+    window.addEventListener("resize", measure, { passive: true });
+    window.visualViewport?.addEventListener("resize", measure, { passive: true });
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", measure);
+      window.visualViewport?.removeEventListener("resize", measure);
+    };
+  }, []);
 
   useEffect(() => {
     if (mode !== "explore") return;
@@ -83,13 +103,8 @@ export function ExperienceShell() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const element = journeyRef.current;
-      if (!element) return;
-      const rect = element.getBoundingClientRect();
-      const scrollableDistance = Math.max(element.offsetHeight - window.innerHeight, 1);
-      const progress = clampScrollProgress(-rect.top / scrollableDistance);
+      const progress = clampScrollProgress(window.scrollY / scrollDistanceRef.current);
       setScrollProgress(progress);
-
     };
 
     const requestUpdate = () => {
@@ -98,10 +113,8 @@ export function ExperienceShell() {
 
     update();
     window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
     return () => {
       window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [mode, setScrollProgress]);
@@ -112,10 +125,10 @@ export function ExperienceShell() {
   if (!webgl) return <NoWebGLFallback />;
 
   return (
-    <main ref={journeyRef} className="relative h-[650vh] w-full bg-[#201a15] md:h-[700vh]">
+    <main ref={journeyRef} className="relative h-[540vh] w-full bg-[#201a15] sm:h-[600vh] lg:h-[680vh]">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#201a15]">
         <SceneCanvas />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_46%,rgba(38,29,22,.28)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_52%,rgba(38,29,22,.22)_100%)]" />
         <HeaderHud />
         <EntryGate />
         <BottomHud />
@@ -123,14 +136,21 @@ export function ExperienceShell() {
         <TourResolution />
 
         {mode === "intro" && (
-          <div className="pointer-events-none absolute bottom-6 left-1/2 z-30 -translate-x-1/2 text-center">
-            <div className="mx-auto mb-3 h-px w-28 overflow-hidden bg-white/10"><div className="h-full w-1/2 animate-[pulse_1.3s_ease-in-out_infinite] bg-[#c79d5f]" /></div>
-            <div className="text-[9px] uppercase tracking-[0.24em] text-[#e1d1bc]">Atravessando a entrada</div>
+          <div className="cinematic-entry pointer-events-none absolute inset-0 z-40" aria-hidden="true">
+            <div className="cinematic-entry__veil absolute inset-0 bg-[#17120e]" />
+            <div className="cinematic-entry__bar cinematic-entry__bar--top absolute inset-x-0 top-0 bg-[#120f0c]" />
+            <div className="cinematic-entry__bar cinematic-entry__bar--bottom absolute inset-x-0 bottom-0 bg-[#120f0c]" />
+            <div className="cinematic-entry__caption absolute bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
+              <div className="mx-auto mb-3 h-px w-24 overflow-hidden bg-white/15">
+                <div className="cinematic-entry__line h-full bg-[#d1a36a]" />
+              </div>
+              <div className="text-[9px] uppercase tracking-[0.26em] text-[#f0dfc9]">Entrando na Lamim&apos;s</div>
+            </div>
           </div>
         )}
 
         {DEMO_MODE && (
-          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[#81735f] backdrop-blur lg:block">
+          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[#bba88f] backdrop-blur lg:block">
             Ambiente demonstrativo · assets oficiais pendentes
           </div>
         )}

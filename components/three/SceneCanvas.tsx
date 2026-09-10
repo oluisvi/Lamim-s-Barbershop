@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { AdaptiveDpr, Preload } from "@react-three/drei";
+import { AdaptiveDpr } from "@react-three/drei";
 import { BarbershopEnvironment } from "./BarbershopEnvironment";
 import { CameraRig } from "./CameraRig";
 import { SceneHotspots } from "./SceneHotspots";
@@ -14,14 +14,15 @@ function SceneLoading() {
 
 export function SceneCanvas() {
   const quality = useExperienceStore((s) => s.quality);
-  const dpr: [number, number] = quality === "high" ? [1, 1.75] : quality === "low" ? [0.75, 1] : [0.85, 1.35];
+  const dpr: [number, number] = quality === "high" ? [1, 1.5] : quality === "low" ? [0.7, 0.9] : [0.85, 1.15];
 
   return (
     <Canvas
       shadows={quality !== "low"}
       dpr={dpr}
-      camera={{ position: [0, 1.65, 13.2], fov: 64, near: 0.1, far: 60 }}
-      gl={{ antialias: quality !== "low", alpha: false, powerPreference: "high-performance" }}
+      camera={{ position: [0, 1.78, 13.35], fov: 60, near: 0.1, far: 52 }}
+      gl={{ antialias: quality === "high", alpha: false, powerPreference: "high-performance" }}
+      performance={{ min: 0.65, max: 1, debounce: 220 }}
       className="!absolute !inset-0"
       style={{ touchAction: "pan-y" }}
     >
@@ -29,8 +30,7 @@ export function SceneCanvas() {
         <BarbershopEnvironment />
         <CameraRig />
         <SceneHotspots />
-        <AdaptiveDpr pixelated />
-        <Preload all />
+        <AdaptiveDpr />
       </Suspense>
     </Canvas>
   );

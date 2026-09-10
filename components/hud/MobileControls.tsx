@@ -1,10 +1,6 @@
 "use client";
 
-/**
- * Deprecated compatibility shim.
- * Spatial navigation is scroll-driven on desktop, tablet and mobile.
- * This component intentionally renders nothing.
- */
+/** Deprecated compatibility shim. Spatial navigation is scroll-driven. */
 export function MobileControls() {
   return null;
 }

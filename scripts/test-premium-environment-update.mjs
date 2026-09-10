@@ -69,5 +69,7 @@ test('scroll remains the only spatial navigation model on every breakpoint', asy
   assert.doesNotMatch(camera, /KeyW|KeyA|KeyS|KeyD|ArrowUp|ArrowDown|ArrowLeft|ArrowRight/);
   assert.match(camera, /scrollProgress/);
   assert.match(shell, /window\.addEventListener\("scroll"/);
-  assert.match(shell, /h-\[650vh\]|h-\[700vh\]/);
+  assert.match(shell, /h-\[540vh\]/);
+  assert.match(shell, /sm:h-\[600vh\]/);
+  assert.match(shell, /lg:h-\[680vh\]/);
 });

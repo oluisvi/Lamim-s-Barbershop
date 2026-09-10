@@ -43,3 +43,54 @@ button { font: inherit; }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
+
+/* Cheap CSS-only cinematic handoff while the 3D camera crosses the storefront. */
+.cinematic-entry__veil {
+  animation: cinematic-entry-veil 3.8s cubic-bezier(.22,.75,.2,1) forwards;
+}
+
+.cinematic-entry__bar {
+  height: 7dvh;
+  animation: cinematic-entry-bars 3.8s cubic-bezier(.22,.75,.2,1) forwards;
+}
+
+.cinematic-entry__caption {
+  animation: cinematic-entry-caption 3.8s ease forwards;
+}
+
+.cinematic-entry__line {
+  transform-origin: left center;
+  animation: cinematic-entry-line 3.8s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes cinematic-entry-veil {
+  0% { opacity: .58; }
+  28% { opacity: .22; }
+  72% { opacity: .05; }
+  100% { opacity: 0; }
+}
+
+@keyframes cinematic-entry-bars {
+  0%, 45% { height: 7dvh; opacity: .96; }
+  100% { height: 0; opacity: 0; }
+}
+
+@keyframes cinematic-entry-caption {
+  0% { opacity: 0; transform: translate(-50%, 8px); }
+  18%, 70% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -5px); }
+}
+
+@keyframes cinematic-entry-line {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-entry__veil,
+  .cinematic-entry__bar,
+  .cinematic-entry__caption,
+  .cinematic-entry__line {
+    animation-duration: .85s;
+  }
+}
