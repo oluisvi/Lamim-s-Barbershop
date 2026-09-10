@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound(){return <main className="grid min-h-screen place-items-center bg-[#0d0c0a] p-6 text-center"><div><div className="font-display text-7xl">404</div><p className="mt-4 text-[#9d8d78]">Essa porta não existe.</p><Link href="/" className="focus-ring mt-6 inline-flex rounded-full bg-[#f3eadb] px-5 py-3 text-xs uppercase tracking-[0.14em] text-black">Voltar para a Lamim&apos;s</Link></div></main>}
