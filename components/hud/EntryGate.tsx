@@ -13,9 +13,9 @@ export function EntryGate() {
   if (mode !== "idle") return null;
 
   return (
-    <section className="absolute inset-0 z-40 flex items-end bg-[radial-gradient(circle_at_50%_25%,rgba(199,157,95,.08),transparent_34%),linear-gradient(180deg,rgba(5,5,4,.18),rgba(5,5,4,.92)_82%)] px-5 pb-8 pt-24 md:items-center md:px-12 md:pb-0 lg:px-20">
+    <section className="absolute inset-0 z-40 flex items-end bg-[radial-gradient(circle_at_50%_24%,rgba(239,210,168,.16),transparent_34%),linear-gradient(180deg,rgba(31,25,20,.08),rgba(39,30,23,.82)_84%)] px-5 pb-8 pt-24 md:items-center md:px-12 md:pb-0 lg:px-20">
       <div className="max-w-4xl">
-        <div className="mb-7 flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-[#c7b79f]">
+        <div className="mb-7 flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-[#eadbc6]">
           <span className="h-px w-9 bg-[#c79d5f]" />
           Jacareí · SP
         </div>
@@ -24,13 +24,13 @@ export function EntryGate() {
         </h1>
         <div className="mt-7 grid max-w-3xl gap-6 md:grid-cols-[1fr_auto] md:items-end">
           <div>
-            <p className="max-w-xl text-sm leading-6 text-[#c3b5a1] md:text-base md:leading-7">
+            <p className="max-w-xl text-sm leading-6 text-[#efe3d2] md:text-base md:leading-7">
               Uma porta digital para conhecer o ambiente, a equipe e a energia da barbearia antes mesmo do seu horário.
             </p>
             <div className="mt-5 flex items-center gap-2 text-xs text-[#e8dece]">
               <Star size={14} fill="currentColor" className="text-[#c79d5f]" />
               <strong>{business.fresha.rating.toFixed(1)}</strong>
-              <span className="text-[#998a77]">· {business.fresha.reviewCount} avaliações no Fresha</span>
+              <span className="text-[#d9c7ae]">· {business.fresha.reviewCount} avaliações no Fresha</span>
             </div>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row md:flex-col lg:flex-row">
@@ -45,7 +45,7 @@ export function EntryGate() {
             <button
               type="button"
               onClick={() => openPanel("story")}
-              className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 bg-black/20 px-6 text-xs uppercase tracking-[0.16em] text-[#f3eadb] backdrop-blur transition hover:border-white/30"
+              className="focus-ring inline-flex min-h-12 items-center justify-center rounded-full border border-[#f2e5d2]/25 bg-[#2c241e]/38 px-6 text-xs uppercase tracking-[0.16em] text-[#f3eadb] backdrop-blur transition hover:border-white/30"
             >
               Explorar sem 3D
             </button>

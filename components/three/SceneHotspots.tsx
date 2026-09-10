@@ -28,9 +28,9 @@ function HotspotMarker({ hotspot }: { hotspot: HotspotConfig }) {
           openPanel(hotspot.panel);
         }}
         aria-label={hotspot.label}
-        className="group flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-black/55 px-3 py-2 text-[9px] uppercase tracking-[0.16em] text-[#f3eadb] shadow-2xl backdrop-blur-md transition hover:border-[#c79d5f]/70 hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c79d5f] md:text-[10px] md:tracking-[0.18em]"
+        className="group hidden items-center gap-2 whitespace-nowrap rounded-full border border-[#2a211a]/10 bg-[#f1e7d7]/94 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#2a211a] shadow-2xl backdrop-blur-md transition hover:bg-[#fff8ec] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9b6737] sm:flex md:text-[10px] md:tracking-[0.18em]"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-[#c79d5f] shadow-[0_0_14px_rgba(199,157,95,.8)]" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[#9b6737] shadow-[0_0_14px_rgba(155,103,55,.45)]" />
         <span>{hotspot.label}</span>
       </button>
     </Html>

@@ -15,7 +15,7 @@ import { useExperienceStore } from "@/hooks/useExperienceStore";
 
 const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then((mod) => mod.SceneCanvas), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[#0d0c0a]" />
+  loading: () => <div className="absolute inset-0 bg-[#201a15]" />
 });
 
 export function ExperienceShell() {
@@ -107,15 +107,15 @@ export function ExperienceShell() {
   }, [mode, setScrollProgress]);
 
   if (webgl === null) {
-    return <div className="grid min-h-[100dvh] place-items-center bg-[#0d0c0a] text-[9px] uppercase tracking-[0.22em] text-[#7e705e]">Preparando a entrada…</div>;
+    return <div className="grid min-h-[100dvh] place-items-center bg-[#201a15] text-[9px] uppercase tracking-[0.22em] text-[#d4c3ac]">Preparando a entrada…</div>;
   }
   if (!webgl) return <NoWebGLFallback />;
 
   return (
-    <main ref={journeyRef} className="relative h-[650vh] w-full bg-[#0d0c0a] md:h-[700vh]">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#0d0c0a]">
+    <main ref={journeyRef} className="relative h-[650vh] w-full bg-[#201a15] md:h-[700vh]">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#201a15]">
         <SceneCanvas />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,transparent_34%,rgba(0,0,0,.44)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_46%,rgba(38,29,22,.28)_100%)]" />
         <HeaderHud />
         <EntryGate />
         <BottomHud />
@@ -125,7 +125,7 @@ export function ExperienceShell() {
         {mode === "intro" && (
           <div className="pointer-events-none absolute bottom-6 left-1/2 z-30 -translate-x-1/2 text-center">
             <div className="mx-auto mb-3 h-px w-28 overflow-hidden bg-white/10"><div className="h-full w-1/2 animate-[pulse_1.3s_ease-in-out_infinite] bg-[#c79d5f]" /></div>
-            <div className="text-[9px] uppercase tracking-[0.24em] text-[#a99b88]">Atravessando a entrada</div>
+            <div className="text-[9px] uppercase tracking-[0.24em] text-[#e1d1bc]">Atravessando a entrada</div>
           </div>
         )}
 

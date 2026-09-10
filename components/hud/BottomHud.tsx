@@ -1,7 +1,6 @@
 "use client";
 
-import { ChevronDown, Compass } from "lucide-react";
-import { business } from "@/data/business";
+import { ChevronDown } from "lucide-react";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
 import { getJourneyScene } from "@/lib/scrollJourney";
 
@@ -17,30 +16,21 @@ export function BottomHud() {
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-6">
-      <div className="absolute bottom-[max(.8rem,env(safe-area-inset-bottom))] left-4 right-4 h-px overflow-hidden bg-white/10 md:left-6 md:right-6">
-        <div className="h-full bg-[#c79d5f] transition-[width] duration-150 ease-out" style={{ width: `${percent}%` }} />
+      <div className="absolute bottom-[max(.8rem,env(safe-area-inset-bottom))] left-4 right-4 h-px overflow-hidden bg-[#fff8ec]/18 md:left-6 md:right-6">
+        <div className="h-full bg-[#c69b63] transition-[width] duration-150 ease-out" style={{ width: `${percent}%` }} />
       </div>
 
       <div className="flex items-end justify-between gap-3 pb-3">
-        <div className="min-w-0">
-          <div className="text-[8px] uppercase tracking-[0.2em] text-[#746958] md:text-[9px]">{scene.label}</div>
+        <div className="min-w-0 rounded-full bg-[#2b241e]/48 px-3 py-2 backdrop-blur-[3px] sm:bg-transparent sm:px-0 sm:py-0 sm:backdrop-blur-none">
+          <div className="text-[8px] uppercase tracking-[0.2em] text-[#eadbc6] md:text-[9px]">{scene.label}</div>
           {showHint && (
-            <div className="mt-2 flex items-center gap-2 text-[9px] uppercase tracking-[0.17em] text-[#b4a58f] md:text-[10px]">
+            <div className="mt-1.5 flex items-center gap-2 text-[9px] uppercase tracking-[0.17em] text-[#fff8ec] md:mt-2 md:text-[10px]">
               <span className="hidden md:inline">Role para caminhar</span>
               <span className="md:hidden">Deslize para caminhar</span>
               <ChevronDown size={13} className="animate-bounce" />
             </div>
           )}
         </div>
-
-        <a
-          href={business.fresha.bookingUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="focus-ring pointer-events-auto inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-[#f3eadb] px-4 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0e0c0a] sm:hidden"
-        >
-          <Compass size={13} /> Agendar
-        </a>
       </div>
     </div>
   );

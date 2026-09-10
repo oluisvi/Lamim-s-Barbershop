@@ -226,3 +226,11 @@ A referência conceitual é `home-3d-three.vercel.app`, usada para estudar o pri
 ## Status
 
 **MVP demonstrativo / proposta.** A arquitetura, experiência, conversão e caminho de substituição do 3D estão implementados. O build final deve ser validado no ambiente com dependências instaladas antes de publicação definitiva.
+
+
+## Experience controls
+
+- Desktop/tablet: mouse-wheel or trackpad scroll moves forward/backward along the programmed 3D path.
+- Mobile: vertical swipe/scroll controls the same path; no joystick or persistent action buttons during exploration.
+- The initial booking CTA remains available on larger screens; experience controls appear only after entry.
+- Low-quality/mobile rendering reduces dynamic lights and secondary props while preserving the spatial composition.

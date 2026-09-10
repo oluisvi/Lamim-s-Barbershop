@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "validate:source": "node scripts/validate-source.mjs",
-    "test:scroll": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs"
+    "test:scroll": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs",
+    "test:experience": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs scripts/test-premium-environment-update.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.7",
