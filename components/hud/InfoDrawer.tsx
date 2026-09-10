@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect } from "react";
 import { ExternalLink, Instagram, MapPin, Star, X } from "lucide-react";
 import { business } from "@/data/business";
 import { services } from "@/data/services";
@@ -139,12 +140,22 @@ function GalleryPanel() {
 export function InfoDrawer() {
   const panel = useExperienceStore((s) => s.activePanel);
   const closePanel = useExperienceStore((s) => s.closePanel);
+
+  useEffect(() => {
+    if (panel === "none") return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePanel();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [panel, closePanel]);
+
   if (panel === "none") return null;
 
   return (
-    <aside className="absolute inset-0 z-[60] flex justify-end bg-[#241c16]/45 backdrop-blur-sm" aria-label={panelTitles[panel]}>
+    <aside className="fixed inset-0 z-[90] flex justify-end bg-[#241c16]/45 backdrop-blur-sm" aria-label={panelTitles[panel]}>
       <button type="button" className="absolute inset-0 cursor-default" onClick={closePanel} aria-label="Fechar painel" />
-      <div className="relative h-full w-full overflow-y-auto border-l border-[#2a211a]/10 bg-[#f1e7d7] px-5 pb-10 pt-20 text-[#2a211a] shadow-2xl sm:w-[min(760px,88vw)] sm:px-8 md:px-10">
+      <div className="relative h-full w-full overflow-y-auto overscroll-contain border-l border-[#2a211a]/10 bg-[#f1e7d7] px-5 pb-10 pt-20 text-[#2a211a] shadow-2xl sm:w-[min(760px,88vw)] sm:px-8 md:px-10">
         <button type="button" onClick={closePanel} className="focus-ring absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-[#2a211a]/15 text-[#2a211a] transition hover:bg-[#e7dccb]" aria-label="Fechar"><X size={18} /></button>
         {panel === "services" && <ServicesPanel />}
         {panel === "team" && <TeamPanel />}

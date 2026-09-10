@@ -28,8 +28,12 @@ export function ExperienceShell() {
   const setScrollProgress = useExperienceStore((s) => s.setScrollProgress);
   const mode = useExperienceStore((s) => s.mode);
   const activePanel = useExperienceStore((s) => s.activePanel);
+  const menuOpen = useExperienceStore((s) => s.menuOpen);
   const tourCompleted = useExperienceStore((s) => s.tourCompleted);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const lockedScrollY = useRef(0);
+  const scrollLockActive = useRef(false);
+  const originalPageStyles = useRef<{ htmlOverflow: string; bodyOverflow: string; overscroll: string } | null>(null);
 
   useEffect(() => {
     setWebgl(supportsWebGL());
@@ -61,21 +65,51 @@ export function ExperienceShell() {
   }, [soundEnabled]);
 
   useEffect(() => {
-    const lockPage = mode !== "explore" || activePanel !== "none" || tourCompleted;
-    const previousHtmlOverflow = document.documentElement.style.overflow;
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousOverscroll = document.body.style.overscrollBehaviorY;
+    const root = document.documentElement;
+    const body = document.body;
+    const lockPage = mode !== "explore" || menuOpen || activePanel !== "none" || tourCompleted;
 
-    document.documentElement.style.overflow = lockPage ? "hidden" : "";
-    document.body.style.overflow = lockPage ? "hidden" : "";
-    document.body.style.overscrollBehaviorY = mode === "explore" ? "none" : previousOverscroll;
+    if (!originalPageStyles.current) {
+      originalPageStyles.current = {
+        htmlOverflow: root.style.overflow,
+        bodyOverflow: body.style.overflow,
+        overscroll: body.style.overscrollBehaviorY,
+      };
+    }
 
+    if (lockPage && !scrollLockActive.current) {
+      lockedScrollY.current = window.scrollY;
+      scrollLockActive.current = true;
+      root.style.overflow = "hidden";
+      body.style.overflow = "hidden";
+      body.style.overscrollBehaviorY = "none";
+      return;
+    }
+
+    if (!lockPage && scrollLockActive.current) {
+      root.style.overflow = originalPageStyles.current.htmlOverflow;
+      body.style.overflow = originalPageStyles.current.bodyOverflow;
+      body.style.overscrollBehaviorY = "none";
+      scrollLockActive.current = false;
+
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: lockedScrollY.current, behavior: "auto" });
+      });
+      return;
+    }
+
+    if (!lockPage) body.style.overscrollBehaviorY = "none";
+  }, [mode, menuOpen, activePanel, tourCompleted]);
+
+  useEffect(() => {
     return () => {
-      document.documentElement.style.overflow = previousHtmlOverflow;
-      document.body.style.overflow = previousBodyOverflow;
-      document.body.style.overscrollBehaviorY = previousOverscroll;
+      const styles = originalPageStyles.current;
+      if (!styles) return;
+      document.documentElement.style.overflow = styles.htmlOverflow;
+      document.body.style.overflow = styles.bodyOverflow;
+      document.body.style.overscrollBehaviorY = styles.overscroll;
     };
-  }, [mode, activePanel, tourCompleted]);
+  }, []);
 
   useEffect(() => {
     const measure = () => {

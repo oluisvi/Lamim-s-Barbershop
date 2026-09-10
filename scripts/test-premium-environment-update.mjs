@@ -13,7 +13,8 @@ test('header keeps initial booking usable while hiding experience controls until
   ]);
 
   assert.match(header, /experienceActive = mode !== "idle"/);
-  assert.match(header, /z-50/);
+  assert.match(header, /<header className="pointer-events-none fixed[^"]*z-\[70\]/);
+  assert.match(header, /className="fixed inset-0 z-\[60\]/);
   assert.match(header, /hidden[^\n]*sm:grid/);
   assert.match(entry, /z-40/);
 });

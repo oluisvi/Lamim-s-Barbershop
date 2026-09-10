@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect } from "react";
 import { Menu, Volume2, VolumeX, X } from "lucide-react";
 import { business } from "@/data/business";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
@@ -24,9 +25,18 @@ export function HeaderHud() {
   const experienceReady = mode === "explore";
   const showBooking = mode !== "intro";
 
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen, setMenuOpen]);
+
   return (
     <>
-      <header className="pointer-events-none absolute inset-x-0 top-0 z-50 flex items-center justify-between p-4 md:p-6">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[70] flex items-center justify-between p-4 md:p-6">
         <div className="pointer-events-auto flex items-center gap-4">
           {experienceActive ? (
             <button
@@ -83,7 +93,14 @@ export function HeaderHud() {
       </header>
 
       {experienceReady && menuOpen && (
-        <nav className="absolute right-6 top-24 z-[60] hidden w-[min(340px,calc(100vw-48px))] rounded-[24px] border border-[#eadfce]/16 bg-[#29231d]/95 p-3 shadow-2xl backdrop-blur-xl sm:block">
+        <>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 z-[60] hidden cursor-default bg-[#17120e]/20 backdrop-blur-[1px] sm:block"
+            aria-label="Fechar menu"
+          />
+          <nav className="fixed right-6 top-24 z-[80] hidden w-[min(340px,calc(100vw-48px))] rounded-[24px] border border-[#eadfce]/16 bg-[#29231d]/95 p-3 shadow-2xl backdrop-blur-xl sm:block">
           <div className="px-3 pb-3 pt-2 text-[9px] uppercase tracking-[0.24em] text-[#c9b89f]">Navegação</div>
           {items.map(([label, panel]) => (
             <button
@@ -101,7 +118,8 @@ export function HeaderHud() {
               Ver versão acessível / SEO
             </Link>
           </div>
-        </nav>
+          </nav>
+        </>
       )}
     </>
   );
