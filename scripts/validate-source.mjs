@@ -4,11 +4,26 @@ import path from "node:path";
 const root = process.cwd();
 const required = [
   "app/page.tsx",
+  "app/layout.tsx",
   "app/info/page.tsx",
+  "app/robots.ts",
+  "app/sitemap.ts",
   "components/experience/ExperienceShell.tsx",
+  "components/experience/NoWebGLFallback.tsx",
   "components/three/SceneCanvas.tsx",
   "components/three/CameraRig.tsx",
   "components/three/BarbershopEnvironment.tsx",
+  "components/three/SceneHotspots.tsx",
+  "components/hud/HeaderHud.tsx",
+  "components/hud/EntryGate.tsx",
+  "components/hud/BottomHud.tsx",
+  "components/hud/InfoDrawer.tsx",
+  "components/hud/MobileControls.tsx",
+  "components/hud/TourResolution.tsx",
+  "hooks/useExperienceStore.ts",
+  "lib/constants.ts",
+  "lib/analytics.ts",
+  "lib/webgl.ts",
   "data/business.ts",
   "data/services.ts",
   "data/team.ts",
@@ -16,7 +31,9 @@ const required = [
   "data/hotspots.ts",
   "docs/BARBEARIA_LAMIMS_HYPER_MASTER_v4_MVP.md",
   "README.md",
-  ".env.example"
+  ".env.example",
+  "tsconfig.json",
+  "package.json"
 ];
 
 const missing = required.filter((file) => !fs.existsSync(path.join(root, file)));
@@ -51,4 +68,36 @@ if (suspicious.length) {
   process.exit(1);
 }
 
-console.log(`Source validation OK — ${files.length} files checked.`);
+const sourceFiles = files.filter((file) => /\.(?:ts|tsx|js|mjs)$/.test(file));
+const unresolved = [];
+const importPattern = /(?:from\s+|import\s*\(\s*)["'](@\/[^"']+)["']/g;
+const candidatesFor = (specifier) => {
+  const relative = specifier.slice(2);
+  const base = path.join(root, relative);
+  return [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.js`,
+    `${base}.mjs`,
+    path.join(base, "index.ts"),
+    path.join(base, "index.tsx"),
+    path.join(base, "index.js"),
+    path.join(base, "index.mjs")
+  ];
+};
+for (const file of sourceFiles) {
+  const content = fs.readFileSync(file, "utf8");
+  for (const match of content.matchAll(importPattern)) {
+    const specifier = match[1];
+    if (!candidatesFor(specifier).some((candidate) => fs.existsSync(candidate))) {
+      unresolved.push(`${path.relative(root, file)} -> ${specifier}`);
+    }
+  }
+}
+if (unresolved.length) {
+  console.error("Unresolved @/ imports:\n" + unresolved.join("\n"));
+  process.exit(1);
+}
+
+console.log(`Source validation OK — ${files.length} files checked; all required files and @/ imports resolved.`);

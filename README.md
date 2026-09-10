@@ -202,13 +202,15 @@ A implementação dispara eventos principais como `CustomEvent("lamims:analytics
 
 ### Vercel
 
-1. envie este projeto para o GitHub;
-2. importe o repositório na Vercel;
-3. configure `NEXT_PUBLIC_SITE_URL` com a URL final;
-4. mantenha `NEXT_PUBLIC_DEMO_MODE=true` enquanto for proposta/MVP;
-5. execute o deploy.
+1. extraia o ZIP e envie **todo o conteúdo da raiz** para o GitHub;
+2. confirme no GitHub que existem, no mínimo, as pastas `app/`, `components/`, `data/`, `hooks/`, `lib/`, `public/` e `scripts/`;
+3. antes do push, rode `npm run validate:source`;
+4. importe o repositório na Vercel;
+5. configure `NEXT_PUBLIC_SITE_URL` com a URL final;
+6. mantenha `NEXT_PUBLIC_DEMO_MODE=true` enquanto for proposta/MVP;
+7. execute o deploy.
 
-Nenhum backend ou banco é necessário para o MVP atual.
+Nenhum backend ou banco é necessário para o MVP atual. O validador falha se algum arquivo essencial ou import `@/` estiver ausente, justamente para evitar deploys incompletos.
 
 ## Pendências intencionais
 
@@ -224,4 +226,4 @@ A referência conceitual é `home-3d-three.vercel.app`, usada para estudar o pri
 
 ## Status
 
-**MVP demonstrativo / proposta.** O núcleo de experiência, conversão, conteúdo e arquitetura de substituição do 3D está pronto para evoluir com os assets reais do cliente.
+**MVP demonstrativo / proposta.** A arquitetura, experiência, conversão e caminho de substituição do 3D estão implementados. O build final deve ser validado no ambiente com dependências instaladas antes de publicação definitiva.
