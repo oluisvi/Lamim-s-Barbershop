@@ -36,7 +36,8 @@ export function CameraRig() {
   const initializedRef = useRef(false);
   const endTriggered = useRef(false);
   const smoothedProgress = useRef(0);
-  const orientationHelper = useMemo(() => new THREE.Object3D(), []);
+  const lookMatrix = useMemo(() => new THREE.Matrix4(), []);
+  const targetQuaternion = useMemo(() => new THREE.Quaternion(), []);
   const forward = useMemo(() => new THREE.Vector3(), []);
   const right = useMemo(() => new THREE.Vector3(), []);
   const lookTarget = useMemo(() => new THREE.Vector3(), []);
@@ -66,9 +67,12 @@ export function CameraRig() {
       .addScaledVector(right, sideOffset);
     lookTarget.y += heightOffset;
 
-    orientationHelper.position.copy(targetPosition);
-    orientationHelper.lookAt(lookTarget);
-    camera.quaternion.copy(orientationHelper.quaternion);
+    // Matrix4.lookAt builds a camera-style orientation (-Z faces the target).
+    // Using Object3D.lookAt here would flip the camera 180° because regular
+    // objects face +Z while cameras look down -Z.
+    lookMatrix.lookAt(targetPosition, lookTarget, UP);
+    targetQuaternion.setFromRotationMatrix(lookMatrix);
+    camera.quaternion.copy(targetQuaternion);
   };
 
   useEffect(() => {
@@ -134,10 +138,10 @@ export function CameraRig() {
       .addScaledVector(right, sideOffset);
     lookTarget.y += heightOffset;
 
-    orientationHelper.position.copy(targetPosition);
-    orientationHelper.lookAt(lookTarget);
+    lookMatrix.lookAt(targetPosition, lookTarget, UP);
+    targetQuaternion.setFromRotationMatrix(lookMatrix);
     camera.quaternion.slerp(
-      orientationHelper.quaternion,
+      targetQuaternion,
       1 - Math.exp(-delta * (reducedMotion ? 30 : 14.5)),
     );
 
