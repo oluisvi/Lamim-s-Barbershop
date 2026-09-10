@@ -51,7 +51,7 @@ test('end conversion waits for the camera to reach the final chair', async () =>
     source('components/three/CameraRig.tsx'),
     source('components/experience/ExperienceShell.tsx'),
   ]);
-  assert.match(camera, /smoothedProgress\.current >= 0\.985/);
+  assert.match(camera, /smoothedProgress\.current >= 0\.988/);
   assert.match(camera, /completeTour/);
   assert.doesNotMatch(shell, /progress >= 0\.985/);
 });

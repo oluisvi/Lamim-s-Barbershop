@@ -19,16 +19,6 @@ export const SCROLL_CAMERA_POINTS: Vec3Tuple[] = [
   [0, 1.65, 1.05],
 ];
 
-// Dedicated cinematic approach. The final point is exactly the first tour point,
-// avoiding a visible snap when the intro hands control to scroll.
-export const INTRO_CAMERA_POINTS: Vec3Tuple[] = [
-  [0, 1.78, 13.35],
-  [0, 1.76, 12.15],
-  [0.06, 1.73, 10.75],
-  [0.18, 1.71, 9.85],
-  SCROLL_CAMERA_POINTS[0],
-];
-
 // Local-space look offsets. Forward direction always comes from the tangent;
 // these values only create gentle editorial glances toward details in the room.
 export const SCROLL_LOOK_SIDE_OFFSETS = [

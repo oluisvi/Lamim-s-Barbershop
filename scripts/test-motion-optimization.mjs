@@ -26,11 +26,9 @@ test('camera motion is arc-length based, forward-facing, and only smooths progre
   assert.doesNotMatch(camera, /camera\.position\.lerp\(/);
 });
 
-test('authored path has a cinematic exterior entry and avoids abrupt reversals', async () => {
-  const { SCROLL_CAMERA_POINTS, INTRO_CAMERA_POINTS } = await import('../data/scroll-path.ts');
-  assert.ok(INTRO_CAMERA_POINTS.length >= 4);
-  assert.ok(INTRO_CAMERA_POINTS[0][2] > 11, 'intro should begin outside the storefront');
-  assert.deepEqual(INTRO_CAMERA_POINTS.at(-1), SCROLL_CAMERA_POINTS[0]);
+test('authored path avoids abrupt reversals and starts inside the shop', async () => {
+  const { SCROLL_CAMERA_POINTS } = await import('../data/scroll-path.ts');
+  assert.ok(SCROLL_CAMERA_POINTS[0][2] < 10.8, 'tour should begin inside the room rather than outside the glass door');
 
   for (let i = 1; i < SCROLL_CAMERA_POINTS.length; i++) {
     assert.ok(length3(SCROLL_CAMERA_POINTS[i - 1], SCROLL_CAMERA_POINTS[i]) < 4.25, `segment ${i} is too long`);
@@ -67,12 +65,12 @@ test('canvas keeps mobile GPU cost bounded while preserving adaptive quality', a
   assert.doesNotMatch(canvas, /pixelated/);
 });
 
-test('intro overlay is cinematic but interaction-free and the route remains scroll-only', async () => {
+test('entry handoff is UI-only and the route remains scroll-only', async () => {
   const [shell, mobile] = await Promise.all([
     source('components/experience/ExperienceShell.tsx'),
     source('components/hud/MobileControls.tsx'),
   ]);
-  assert.match(shell, /cinematic-entry/);
+  assert.doesNotMatch(shell, /cinematic-entry/);
   assert.doesNotMatch(mobile, /button|onPointer|onTouch|setMovement/);
   assert.match(mobile, /return null/);
 });
@@ -101,7 +99,7 @@ test('camera look tracks stay aligned with authored path points', async () => {
 });
 
 
-test('cinematic intro keeps navigation chrome out of the camera handoff', async () => {
+test('UI intro keeps navigation chrome out of the handoff', async () => {
   const header = await source('components/hud/HeaderHud.tsx');
   assert.match(header, /experienceReady = mode === "explore"/);
   assert.match(header, /showBooking = mode !== "intro"/);

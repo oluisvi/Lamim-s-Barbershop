@@ -54,12 +54,12 @@ function TeamPanel() {
   return (
     <>
       <SectionIntro eyebrow="A casa é feita por gente" title="Quem faz a Lamim's">Equipe listada publicamente no Fresha. Especialidades individuais permanecem pendentes de validação do cliente.</SectionIntro>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="border-y border-[#2a211a]/14">
         {team.map((member, index) => (
-          <div key={member.id} className="min-h-32 rounded-3xl border border-[#2a211a]/10 bg-[#e7dccb] p-5">
-            <div className="mb-7 flex h-8 w-8 items-center justify-center rounded-full border border-[#8a5b34]/30 font-display text-sm text-[#7f512f]">{String(index + 1).padStart(2, "0")}</div>
-            <div className="font-display text-2xl tracking-[-0.03em] text-[#2a211a]">{member.name}</div>
-            <div className="mt-2 text-[9px] uppercase tracking-[0.17em] text-[#746355]">Profissional · Fresha</div>
+          <div key={member.id} className="grid grid-cols-[44px_1fr] items-baseline gap-3 border-b border-[#2a211a]/10 py-4 last:border-b-0 sm:grid-cols-[64px_1fr_auto] sm:gap-5 sm:py-5">
+            <div className="font-display text-sm text-[#956b47]">{String(index + 1).padStart(2, "0")}</div>
+            <div className="font-display text-[clamp(1.65rem,5vw,2.8rem)] leading-none tracking-[-0.04em] text-[#2a211a]">{member.name}</div>
+            <div className="col-start-2 text-[8px] uppercase tracking-[0.17em] text-[#746355] sm:col-start-auto">Profissional · Fresha</div>
           </div>
         ))}
       </div>
@@ -84,12 +84,15 @@ function ReviewsPanel() {
   return (
     <>
       <SectionIntro eyebrow={`${business.fresha.rating.toFixed(1)} · ${business.fresha.reviewCount} avaliações no Fresha`} title="O ambiente também é parte do corte.">Trechos públicos recentes, verificados em 10/09/2026.</SectionIntro>
-      <div className="space-y-3">
-        {reviews.map((review) => (
-          <blockquote key={review.id} className="rounded-3xl border border-[#2a211a]/10 bg-[#e9dfcf] p-5">
-            <div className="mb-3 flex gap-1 text-[#9b6737]">{Array.from({ length: review.rating }).map((_, i) => <Star key={i} size={12} fill="currentColor" />)}</div>
-            <p className="font-display text-xl leading-7 text-[#31261f]">“{review.text}”</p>
-            <footer className="mt-4 text-[9px] uppercase tracking-[0.18em] text-[#78685b]">{review.author} · Fresha</footer>
+      <div className="border-y border-[#2a211a]/14">
+        {reviews.map((review, index) => (
+          <blockquote key={review.id} className="border-b border-[#2a211a]/10 py-5 last:border-b-0 sm:py-6">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div className="flex gap-1 text-[#9b6737]">{Array.from({ length: review.rating }).map((_, i) => <Star key={i} size={12} fill="currentColor" />)}</div>
+              <span className="font-display text-sm text-[#9a7758]">{String(index + 1).padStart(2, "0")}</span>
+            </div>
+            <p className="font-display text-[clamp(1.45rem,4.5vw,2.25rem)] leading-[1.12] tracking-[-0.025em] text-[#31261f]">“{review.text}”</p>
+            <footer className="mt-4 text-[8px] uppercase tracking-[0.18em] text-[#78685b]">{review.author} · Fresha</footer>
           </blockquote>
         ))}
       </div>

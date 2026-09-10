@@ -30,6 +30,8 @@ export function ExperienceShell() {
   const activePanel = useExperienceStore((s) => s.activePanel);
   const menuOpen = useExperienceStore((s) => s.menuOpen);
   const tourCompleted = useExperienceStore((s) => s.tourCompleted);
+  const scrollProgress = useExperienceStore((s) => s.scrollProgress);
+  const dismissTourResolution = useExperienceStore((s) => s.dismissTourResolution);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lockedScrollY = useRef(0);
   const scrollLockActive = useRef(false);
@@ -67,7 +69,7 @@ export function ExperienceShell() {
   useEffect(() => {
     const root = document.documentElement;
     const body = document.body;
-    const lockPage = mode !== "explore" || menuOpen || activePanel !== "none" || tourCompleted;
+    const lockPage = mode !== "explore" || menuOpen || activePanel !== "none";
 
     if (!originalPageStyles.current) {
       originalPageStyles.current = {
@@ -99,7 +101,7 @@ export function ExperienceShell() {
     }
 
     if (!lockPage) body.style.overscrollBehaviorY = "none";
-  }, [mode, menuOpen, activePanel, tourCompleted]);
+  }, [mode, menuOpen, activePanel]);
 
   useEffect(() => {
     return () => {
@@ -130,6 +132,10 @@ export function ExperienceShell() {
       window.visualViewport?.removeEventListener("resize", measure);
     };
   }, []);
+
+  useEffect(() => {
+    if (tourCompleted && scrollProgress < 0.96) dismissTourResolution();
+  }, [tourCompleted, scrollProgress, dismissTourResolution]);
 
   useEffect(() => {
     if (mode !== "explore") return;
@@ -168,20 +174,6 @@ export function ExperienceShell() {
         <BottomHud />
         <InfoDrawer />
         <TourResolution />
-
-        {mode === "intro" && (
-          <div className="cinematic-entry pointer-events-none absolute inset-0 z-40" aria-hidden="true">
-            <div className="cinematic-entry__veil absolute inset-0 bg-[#17120e]" />
-            <div className="cinematic-entry__bar cinematic-entry__bar--top absolute inset-x-0 top-0 bg-[#120f0c]" />
-            <div className="cinematic-entry__bar cinematic-entry__bar--bottom absolute inset-x-0 bottom-0 bg-[#120f0c]" />
-            <div className="cinematic-entry__caption absolute bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 whitespace-nowrap text-center">
-              <div className="mx-auto mb-3 h-px w-24 overflow-hidden bg-white/15">
-                <div className="cinematic-entry__line h-full bg-[#d1a36a]" />
-              </div>
-              <div className="text-[9px] uppercase tracking-[0.26em] text-[#f0dfc9]">Entrando na Lamim&apos;s</div>
-            </div>
-          </div>
-        )}
 
         {DEMO_MODE && (
           <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[#bba88f] backdrop-blur lg:block">

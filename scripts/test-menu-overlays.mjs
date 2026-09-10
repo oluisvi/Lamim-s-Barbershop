@@ -8,7 +8,7 @@ const drawer = readFileSync(new URL('../components/hud/InfoDrawer.tsx', import.m
 
 test('menu participates in experience scroll lock', () => {
   assert.match(shell, /const menuOpen = useExperienceStore\(\(s\) => s\.menuOpen\)/);
-  assert.match(shell, /mode !== "explore" \|\| menuOpen \|\| activePanel !== "none" \|\| tourCompleted/);
+  assert.match(shell, /mode !== "explore" \|\| menuOpen \|\| activePanel !== "none"/);
 });
 
 test('scroll position is preserved across menu and panel overlays', () => {

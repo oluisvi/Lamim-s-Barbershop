@@ -8,11 +8,11 @@ MVP imersivo para a **Barbearia Lamim's**, em Jacareí — SP. O conceito do pro
 
 - Entrada cinematográfica **guided-first → free exploration**.
 - Ambiente 3D procedural e modular, construído para ser substituído por um modelo real posteriormente.
-- Navegação cinematográfica por scroll, com caminho de câmera pré-programado e reversível.
-- Navegação espacial exclusivamente por scroll/swipe vertical, sem controles de movimento na tela.
+- Navegação espacial exclusivamente por scroll/trackpad no desktop e swipe vertical no mobile.
+- O mesmo percurso é reversível: scroll para baixo avança e scroll para cima retorna.
 - Hotspots espaciais para serviços, equipe, história, reviews, ambiente real e localização.
-- Tour guiado opcional com resolução final **“Agora só falta você”**.
-- CTA de agendamento disponível na entrada, nos painéis informativos e no fechamento da experiência.
+- Percurso 3D guiado pelo próprio scroll com resolução final **“Agora só falta você”**.
+- CTA de agendamento Fresha persistente.
 - Modo informativo acessível em `/info` com conteúdo em DOM real.
 - Fallback para dispositivos sem WebGL.
 - Quality tiers `high`, `balanced` e `low` escolhidos de forma adaptativa.
@@ -75,21 +75,19 @@ Quando fotos, vídeo 360°, planta, LiDAR ou modelo final forem aprovados pelo c
 NEXT_PUBLIC_DEMO_MODE=false
 ```
 
-A troca do ambiente demonstrativo pelo ambiente real deve preservar a arquitetura de câmera, percurso por scroll, hotspots, HUD, conteúdo e conversão.
+A troca do ambiente demonstrativo pelo ambiente real deve preservar a arquitetura de câmera, tour, hotspots, HUD, conteúdo e conversão.
 
 ## Controles
 
-### Desktop
+### Desktop / tablet
 
-- Scroll do mouse / trackpad: avançar e recuar pelo percurso 3D
-- Hotspots contextuais: aparecem conforme a câmera chega a cada ponto da experiência
-- CTA de agendamento permanece acessível durante todo o percurso
+- Scroll do mouse ou trackpad: avançar e retornar pelo percurso 3D
+- Menu e painéis informativos pausam o percurso exatamente na posição atual
 
 ### Mobile
 
-- Swipe vertical no mobile: controla o mesmo percurso de câmera, sem joystick
-- Movimento e rotação são suavizados para reduzir desconforto e evitar sensação de jogo
-- Interface reduzida durante o passeio: sem joystick, sem botões de movimento e sem ações persistentes cobrindo o 3D
+- Swipe vertical: controla o mesmo percurso, sem joystick ou botões de movimentação
+- Interface reduzida para preservar a leitura do ambiente
 
 ## Estrutura principal
 
@@ -99,7 +97,7 @@ app/
   info/page.tsx             versão acessível / SEO
 components/
   experience/               shell, fallback e inicialização
-  hud/                      entrada, menus, drawers e controles
+  hud/                      entrada, menus, drawers e HUD de progresso
   three/                    ambiente, câmera, hotspots e Canvas
 data/
   business.ts               negócio e links centrais
@@ -227,22 +225,10 @@ A referência conceitual é `home-3d-three.vercel.app`, usada para estudar o pri
 
 **MVP demonstrativo / proposta.** A arquitetura, experiência, conversão e caminho de substituição do 3D estão implementados. O build final deve ser validado no ambiente com dependências instaladas antes de publicação definitiva.
 
+## Hybrid Premium V5
 
-## Experience controls
+Esta versão usa `BARBEARIA_LAMIMS_VERCEL_FIX_COMPLETE` como baseline estrutural e de conteúdo, mantendo a experiência, os destinos informativos e a arquitetura da primeira versão premium. Sobre essa base foram incorporados o ambiente 3D enriquecido, a paleta mais legível e o movimento por scroll da linha QA V4.
 
-- Desktop/tablet: mouse-wheel or trackpad scroll moves forward/backward along the programmed 3D path.
-- Mobile: vertical swipe/scroll controls the same path; no joystick or persistent action buttons during exploration.
-- The initial booking CTA remains available on larger screens; experience controls appear only after entry.
-- Low-quality/mobile rendering reduces dynamic lights and secondary props while preserving the spatial composition.
+Direção visual: moldura carvão/espresso, tipografia creme, acentos bronze, superfícies editoriais em marfim/pedra quente, madeira e couro. A rota `/info` preserva todas as sections do FIX COMPLETE, mas passa a usar composição editorial mais arquitetônica: listas tipográficas, regras finas, marcadores numerados, assimetria e imagens em escala, evitando grids genéricos de cards.
 
-
-## Motion & performance — scroll journey v2
-
-- Scroll para baixo avança pelo ambiente; scroll para cima retorna pelo mesmo percurso. Não há navegação por teclado, joystick ou controles espaciais paralelos.
-- A câmera usa uma curva Catmull-Rom centrípeta com amostragem por comprimento de arco (`getPointAt`), evitando mudanças artificiais de velocidade entre waypoints.
-- A orientação vem da tangente frontal da própria curva (`getTangentAt`) com desvios laterais pequenos, evitando a sensação de caminhar de costas.
-- O movimento possui uma única camada de damping no progresso; a posição não recebe uma segunda interpolação atrasada.
-- A entrada possui um percurso 3D dedicado partindo do exterior da fachada, com FOV responsivo e overlay cinematográfico leve em CSS.
-- Mobile usa FOV mais aberto, jornada vertical menor e qualidade LOW por padrão em ponteiros coarse para reduzir custo de GPU.
-- DPR, antialiasing, sombras e luzes pontuais escalam por tier HIGH / BALANCED / LOW.
-- O listener de scroll é passivo e lê `window.scrollY`; a distância total é recalculada apenas em resize/ResizeObserver para evitar layout reads durante cada gesto.
+Referências de princípio estão documentadas em `docs/REFERENCE_DIRECTION.md`: Casa Aurora/home-3d, ERA Residence, LPAS, Senawa Studio e Studio Foundry.

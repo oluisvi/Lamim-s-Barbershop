@@ -20,7 +20,7 @@ export function SceneCanvas() {
     <Canvas
       shadows={quality !== "low"}
       dpr={dpr}
-      camera={{ position: [0, 1.78, 13.35], fov: 60, near: 0.1, far: 52 }}
+      camera={{ position: [0, 1.7, 9.2], fov: 60, near: 0.1, far: 52 }}
       gl={{ antialias: quality === "high", alpha: false, powerPreference: "high-performance" }}
       performance={{ min: 0.65, max: 1, debounce: 220 }}
       className="!absolute !inset-0"

@@ -1,6 +1,9 @@
 "use client";
 
-/** Deprecated compatibility shim. Spatial navigation is scroll-driven. */
+/**
+ * Compatibility shim kept because the FIX COMPLETE structure originally
+ * included this component. Spatial navigation is scroll/swipe only.
+ */
 export function MobileControls() {
   return null;
 }
