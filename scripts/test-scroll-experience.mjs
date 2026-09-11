@@ -39,7 +39,7 @@ test('scroll journey keeps contextual UI clean and mobile-first', async () => {
     source('README.md'),
   ]);
 
-  assert.match(hotspots, /getJourneyScene/);
+  assert.match(hotspots, /HOTSPOT_WINDOWS/);
   assert.match(hotspots, /scrollProgress/);
   assert.doesNotMatch(readme, /WASD|direcional virtual|arrastar a cena|ESC/);
   assert.match(readme, /Swipe vertical no mobile|Scroll do mouse/);
