@@ -19,16 +19,16 @@ test('header keeps initial booking usable while hiding experience controls until
   assert.match(entry, /z-40/);
 });
 
-test('mobile exploration contains no persistent action or movement buttons', async () => {
+test('mobile exploration contains no persistent movement controls and keeps utility chrome restrained', async () => {
   const [header, bottom, shell] = await Promise.all([
     source('components/hud/HeaderHud.tsx'),
     source('components/hud/BottomHud.tsx'),
     source('components/experience/ExperienceShell.tsx'),
   ]);
 
-  assert.doesNotMatch(bottom, /business\.fresha|Compass|Agendar/);
+  assert.doesNotMatch(bottom, /business\.fresha|Compass|Agendar|WASD|joystick|setMovement/i);
   const hotspots = await source('components/three/SceneHotspots.tsx');
-  assert.doesNotMatch(shell, /MobileControls/);
+  assert.doesNotMatch(shell, /<MobileControls/);
   assert.match(header, /hidden[^\n]*sm:grid/);
   assert.match(hotspots, /hidden[^\n]*sm:flex/);
   assert.match(header, /hidden min-h-11[\s\S]*sm:inline-flex/);
@@ -70,7 +70,7 @@ test('scroll remains the only spatial navigation model on every breakpoint', asy
   assert.doesNotMatch(camera, /KeyW|KeyA|KeyS|KeyD|ArrowUp|ArrowDown|ArrowLeft|ArrowRight/);
   assert.match(camera, /scrollProgress/);
   assert.match(shell, /window\.addEventListener\("scroll"/);
-  assert.match(shell, /h-\[540vh\]/);
+  assert.match(shell, /h-\[500vh\]/);
   assert.match(shell, /sm:h-\[600vh\]/);
   assert.match(shell, /lg:h-\[680vh\]/);
 });

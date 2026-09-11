@@ -34,14 +34,16 @@ test('experience uses scroll navigation instead of keyboard or mobile joystick c
 
 
 test('scroll journey keeps contextual UI clean and mobile-first', async () => {
-  const [hotspots, readme] = await Promise.all([
+  const [hotspots, hotspotJourney, readme] = await Promise.all([
     source('components/three/SceneHotspots.tsx'),
+    source('lib/hotspotJourney.ts'),
     source('README.md'),
   ]);
 
-  assert.match(hotspots, /HOTSPOT_WINDOWS/);
+  assert.match(hotspots, /getActiveHotspot/);
+  assert.match(hotspotJourney, /HOTSPOT_WINDOWS/);
   assert.match(hotspots, /scrollProgress/);
-  assert.doesNotMatch(readme, /WASD|direcional virtual|arrastar a cena|ESC/);
+  assert.doesNotMatch(readme, /WASD \/ setas para andar|direcional virtual|arrastar a cena|ESC para sair/);
   assert.match(readme, /Swipe vertical no mobile|Scroll do mouse/);
 });
 

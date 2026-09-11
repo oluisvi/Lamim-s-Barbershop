@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { EntryGate } from "@/components/hud/EntryGate";
 import { HeaderHud } from "@/components/hud/HeaderHud";
 import { BottomHud } from "@/components/hud/BottomHud";
+import { MobileJourneyHud } from "@/components/hud/MobileJourneyHud";
 import { InfoDrawer } from "@/components/hud/InfoDrawer";
 import { TourResolution } from "@/components/hud/TourResolution";
 import { NoWebGLFallback } from "./NoWebGLFallback";
@@ -48,8 +49,10 @@ export function ExperienceShell() {
     const cores = navigator.hardwareConcurrency || 4;
     const memory = nav.deviceMemory || 4;
     const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    const mobileCapable = cores >= 6 && memory >= 4;
     if (cores >= 8 && memory >= 6 && !coarsePointer) setQuality("high");
-    else if (coarsePointer || cores <= 4 || memory <= 3) setQuality("low");
+    else if (coarsePointer && mobileCapable) setQuality("balanced");
+    else if (cores <= 4 || memory <= 3) setQuality("low");
     else setQuality("balanced");
 
     return () => media.removeEventListener?.("change", listener);
@@ -165,13 +168,14 @@ export function ExperienceShell() {
   if (!webgl) return <NoWebGLFallback />;
 
   return (
-    <main ref={journeyRef} className="relative h-[540vh] w-full bg-[#201a15] sm:h-[600vh] lg:h-[680vh]">
+    <main ref={journeyRef} className="relative h-[500vh] w-full bg-[#201a15] sm:h-[600vh] lg:h-[680vh]">
       <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#201a15]">
         <SceneCanvas />
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_52%,rgba(38,29,22,.22)_100%)]" />
         <HeaderHud />
         <EntryGate />
         <BottomHud />
+        <MobileJourneyHud />
         <InfoDrawer />
         <TourResolution />
 

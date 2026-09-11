@@ -1,32 +1,10 @@
 "use client";
 
 import { Html } from "@react-three/drei";
-import { hotspots, type HotspotConfig } from "@/data/hotspots";
+import type { HotspotConfig } from "@/data/hotspots";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
+import { getActiveHotspot } from "@/lib/hotspotJourney";
 import { trackEvent } from "@/lib/analytics";
-
-type HotspotWindow = {
-  id: HotspotConfig["id"];
-  from: number;
-  to: number;
-};
-
-// These windows are authored against the FORWARD-facing camera path.
-// Each action appears while its anchored object is still in front of the viewer,
-// instead of being tied to a later journey label after the camera has passed it.
-const HOTSPOT_WINDOWS: HotspotWindow[] = [
-  { id: "location", from: 0, to: 0.07 },
-  { id: "reviews", from: 0.08, to: 0.23 },
-  { id: "gallery", from: 0.28, to: 0.39 },
-  { id: "team", from: 0.39, to: 0.49 },
-  { id: "services", from: 0.5, to: 0.61 },
-  { id: "story", from: 0.61, to: 0.75 },
-];
-
-function getActiveHotspot(progress: number) {
-  const window = HOTSPOT_WINDOWS.find((item) => progress >= item.from && progress < item.to);
-  return window ? hotspots.find((item) => item.id === window.id) : undefined;
-}
 
 function HotspotMarker({ hotspot }: { hotspot: HotspotConfig }) {
   const openPanel = useExperienceStore((s) => s.openPanel);

@@ -36,7 +36,7 @@ export function HeaderHud() {
 
   return (
     <>
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[70] flex items-center justify-between p-4 md:p-6">
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[70] flex items-center justify-between px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] md:p-6">
         <div className="pointer-events-auto flex items-center gap-4">
           {experienceActive ? (
             <button
@@ -128,7 +128,7 @@ export function HeaderHud() {
 function Brand() {
   return (
     <>
-      <span className="block font-display text-xl tracking-[-0.03em] text-[#fff8ec] drop-shadow-[0_2px_8px_rgba(0,0,0,.35)] md:text-2xl">LAMIM&apos;S</span>
+      <span className="block font-display text-lg tracking-[-0.03em] text-[#fff8ec] drop-shadow-[0_2px_8px_rgba(0,0,0,.35)] sm:text-xl md:text-2xl">LAMIM&apos;S</span>
       <span className="block text-[8px] uppercase tracking-[0.28em] text-[#dfcfb9] drop-shadow-[0_1px_5px_rgba(0,0,0,.45)]">Barbearia · Jacareí</span>
     </>
   );

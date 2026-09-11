@@ -156,10 +156,11 @@ export function InfoDrawer() {
   if (panel === "none") return null;
 
   return (
-    <aside className="fixed inset-0 z-[90] flex justify-end bg-[#241c16]/45 backdrop-blur-sm" aria-label={panelTitles[panel]}>
+    <aside className="fixed inset-0 z-[90] flex items-end justify-center bg-[#241c16]/48 backdrop-blur-sm sm:items-stretch sm:justify-end" aria-label={panelTitles[panel]}>
       <button type="button" className="absolute inset-0 cursor-default" onClick={closePanel} aria-label="Fechar painel" />
-      <div className="relative h-full w-full overflow-y-auto overscroll-contain border-l border-[#2a211a]/10 bg-[#f1e7d7] px-5 pb-10 pt-20 text-[#2a211a] shadow-2xl sm:w-[min(760px,88vw)] sm:px-8 md:px-10">
-        <button type="button" onClick={closePanel} className="focus-ring absolute right-5 top-5 grid h-11 w-11 place-items-center rounded-full border border-[#2a211a]/15 text-[#2a211a] transition hover:bg-[#e7dccb]" aria-label="Fechar"><X size={18} /></button>
+      <div className="relative max-h-[84dvh] w-full overflow-y-auto overscroll-contain rounded-t-[28px] border-t border-[#2a211a]/10 bg-[#f1e7d7] px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-14 text-[#2a211a] shadow-[0_-22px_70px_rgba(26,20,15,.28)] sm:h-full sm:max-h-none sm:w-[min(760px,88vw)] sm:rounded-none sm:border-l sm:border-t-0 sm:px-8 sm:pb-10 sm:pt-20 sm:shadow-2xl md:px-10">
+        <div className="absolute left-1/2 top-3 h-1 w-10 -translate-x-1/2 rounded-full bg-[#2a211a]/18 sm:hidden" aria-hidden="true" />
+        <button type="button" onClick={closePanel} className="focus-ring absolute right-4 top-3 grid h-11 w-11 place-items-center rounded-full border border-[#2a211a]/15 text-[#2a211a] transition hover:bg-[#e7dccb] sm:right-5 sm:top-5" aria-label="Fechar"><X size={18} /></button>
         {panel === "services" && <ServicesPanel />}
         {panel === "team" && <TeamPanel />}
         {panel === "story" && <StoryPanel />}

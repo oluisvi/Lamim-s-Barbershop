@@ -51,7 +51,7 @@ test('scroll sampling avoids layout work on every scroll event and journey heigh
   assert.match(shell, /scrollDistanceRef/);
   assert.match(shell, /window\.scrollY/);
   assert.doesNotMatch(shell, /getBoundingClientRect\(\)/);
-  assert.match(shell, /h-\[540vh\]/);
+  assert.match(shell, /h-\[500vh\]/);
   assert.match(shell, /sm:h-\[600vh\]/);
   assert.match(shell, /lg:h-\[680vh\]/);
 });

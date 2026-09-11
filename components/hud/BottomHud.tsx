@@ -15,7 +15,7 @@ export function BottomHud() {
   const showHint = progress < 0.14;
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-6">
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 hidden p-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:block md:p-6">
       <div className="flex items-end justify-between gap-4 pb-4">
         <div className="min-w-0 rounded-full border border-white/10 bg-[#17130f]/55 px-3.5 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,.16)] backdrop-blur-md md:px-4">
           <div className="text-[8px] uppercase tracking-[0.2em] text-[#d7c7b1] md:text-[9px]">{scene.label}</div>

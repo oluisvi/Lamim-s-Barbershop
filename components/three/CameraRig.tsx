@@ -49,7 +49,12 @@ export function CameraRig() {
   }, []);
 
   const perspectiveCamera = camera as THREE.PerspectiveCamera;
-  const baseFov = size.width < 640 ? 69 : size.width < 1024 ? 64 : 60;
+  const isMobile = size.width < 640;
+  const isPortrait = size.height >= size.width;
+  const baseFov = isMobile ? (isPortrait ? 73 : 68) : size.width < 1024 ? 64 : 60;
+  const sideScale = isMobile ? (isPortrait ? 0.48 : 0.68) : 1;
+  const heightScale = isMobile ? 0.82 : 1;
+  const lookDistance = isMobile ? (isPortrait ? 4.0 : 4.25) : LOOK_DISTANCE;
 
   const frameCameraAt = (progress: number) => {
     const p = THREE.MathUtils.clamp(progress, 0, 0.9999);
@@ -63,9 +68,9 @@ export function CameraRig() {
     const heightOffset = sampleTrack(SCROLL_LOOK_HEIGHT_OFFSETS, p);
     lookTarget
       .copy(targetPosition)
-      .addScaledVector(forward, LOOK_DISTANCE)
-      .addScaledVector(right, sideOffset);
-    lookTarget.y += heightOffset;
+      .addScaledVector(forward, lookDistance)
+      .addScaledVector(right, sideOffset * sideScale);
+    lookTarget.y += heightOffset * heightScale;
 
     // Matrix4.lookAt builds a camera-style orientation (-Z faces the target).
     // Using Object3D.lookAt here would flip the camera 180° because regular
@@ -119,7 +124,7 @@ export function CameraRig() {
     smoothedProgress.current = THREE.MathUtils.damp(
       smoothedProgress.current,
       scrollProgress,
-      reducedMotion ? 22 : 10.5,
+      reducedMotion ? 22 : isMobile ? 12.5 : 10.5,
       delta,
     );
 
@@ -134,15 +139,15 @@ export function CameraRig() {
     const heightOffset = sampleTrack(SCROLL_LOOK_HEIGHT_OFFSETS, progress);
     lookTarget
       .copy(targetPosition)
-      .addScaledVector(forward, LOOK_DISTANCE)
-      .addScaledVector(right, sideOffset);
-    lookTarget.y += heightOffset;
+      .addScaledVector(forward, lookDistance)
+      .addScaledVector(right, sideOffset * sideScale);
+    lookTarget.y += heightOffset * heightScale;
 
     lookMatrix.lookAt(targetPosition, lookTarget, UP);
     targetQuaternion.setFromRotationMatrix(lookMatrix);
     camera.quaternion.slerp(
       targetQuaternion,
-      1 - Math.exp(-delta * (reducedMotion ? 30 : 14.5)),
+      1 - Math.exp(-delta * (reducedMotion ? 30 : isMobile ? 16.5 : 14.5)),
     );
 
     if (Math.abs(perspectiveCamera.fov - baseFov) > 0.02) {

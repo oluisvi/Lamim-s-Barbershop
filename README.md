@@ -232,3 +232,18 @@ Esta versão usa `BARBEARIA_LAMIMS_VERCEL_FIX_COMPLETE` como baseline estrutural
 Direção visual: moldura carvão/espresso, tipografia creme, acentos bronze, superfícies editoriais em marfim/pedra quente, madeira e couro. A rota `/info` preserva todas as sections do FIX COMPLETE, mas passa a usar composição editorial mais arquitetônica: listas tipográficas, regras finas, marcadores numerados, assimetria e imagens em escala, evitando grids genéricos de cards.
 
 Referências de princípio estão documentadas em `docs/REFERENCE_DIRECTION.md`: Casa Aurora/home-3d, ERA Residence, LPAS, Senawa Studio e Studio Foundry.
+
+
+## Mobile Experience V1
+
+A V5.2 permanece como baseline do desktop. A experiência mobile recebe uma camada própria sem alterar a navegação espacial do desktop:
+
+- swipe vertical continua sendo a única navegação espacial no celular; não há joystick, WASD, setas ou botões de movimento;
+- o percurso usa a mesma curva da experiência principal, com FOV mais aberto em portrait e desvios editoriais laterais reduzidos para manter os pontos de interesse dentro do enquadramento 9:16;
+- o damping do progresso e da rotação responde um pouco mais rápido em telas móveis para diminuir sensação de atraso entre o dedo e a câmera;
+- hotspots espaciais do desktop viram um HUD contextual inferior no mobile, com uma única ação por vez e touch target de 54px;
+- o HUD mobile respeita safe-area, mostra cena/progresso e desaparece enquanto painel ou resolução final estiverem abertos;
+- painéis informativos viram bottom sheets de até 84dvh no mobile e continuam side drawers a partir de `sm`;
+- aparelhos móveis capazes podem usar quality `BALANCED`; `LOW` fica reservado para hardware realmente limitado;
+- a jornada móvel usa 500vh para reduzir swipes excessivos sem introduzir snap ou teleporte;
+- final da experiência continua reversível pelo próprio scroll e o card final possui altura segura para telas pequenas.
