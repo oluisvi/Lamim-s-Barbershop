@@ -72,6 +72,22 @@ function ProductBottle({ position, tone = SPATIAL_COLORS.softBlack, height = 0.3
   );
 }
 
+function FoldedTowels({ position }: { position: Vec3 }) {
+  return (
+    <group position={position}>
+      {[0, 0.075].map((y, index) => (
+        <RoundedBox key={y} args={[0.42, 0.065, 0.28]} radius={0.025} position={[0, y, 0]} castShadow>
+          <meshStandardMaterial
+            color={index === 0 ? SPATIAL_COLORS.wallSecondary : SPATIAL_COLORS.chromeHighlight}
+            roughness={0.72}
+            metalness={0.01}
+          />
+        </RoundedBox>
+      ))}
+    </group>
+  );
+}
+
 function WallMirror({ side, z }: { side: -1 | 1; z: number }) {
   const x = side * 6.84;
   const rotationY = side < 0 ? Math.PI / 2 : -Math.PI / 2;
@@ -117,6 +133,7 @@ function WallStation({ side, z }: { side: -1 | 1; z: number }) {
         <ProductBottle position={[-0.48, 1.17, 0]} tone={SPATIAL_COLORS.softBlack} height={0.28} />
         <ProductBottle position={[-0.18, 1.15, 0]} tone={SPATIAL_COLORS.botanicalDark} height={0.25} />
         <ProductBottle position={[0.48, 1.18, 0]} tone={SPATIAL_COLORS.steel} height={0.3} />
+        <FoldedTowels position={[0.68, 1.08, 0]} />
       </group>
     </>
   );
@@ -200,6 +217,65 @@ function WaitingArea() {
           <meshStandardMaterial color={SPATIAL_COLORS.chrome} {...SPATIAL_MATERIALS.chrome} />
         </mesh>
       ))}
+    </group>
+  );
+}
+
+function WallArtGallery({ quality }: { quality: QualityTier }) {
+  const frames = quality === "low" ? [-1.25, 1.25] : [-2.45, 0, 2.45];
+
+  return (
+    <group position={[0, 2.72, -4.84]}>
+      {frames.map((x, index) => (
+        <group key={x} position={[x, 0, 0]}>
+          <mesh castShadow>
+            <boxGeometry args={[1.48, 1.78, 0.055]} />
+            <meshStandardMaterial color={SPATIAL_COLORS.graphite} roughness={0.48} metalness={0.16} />
+          </mesh>
+          <mesh position={[0, 0, 0.032]}>
+            <planeGeometry args={[1.3, 1.6]} />
+            <meshStandardMaterial color={SPATIAL_COLORS.wallSecondary} roughness={0.9} />
+          </mesh>
+          <mesh position={[index % 2 ? 0.22 : -0.2, 0.12, 0.05]}>
+            <circleGeometry args={[0.25 + index * 0.025, 24]} />
+            <meshStandardMaterial color={index === 1 ? SPATIAL_COLORS.botanical : SPATIAL_COLORS.woodTrim} roughness={0.7} />
+          </mesh>
+          <mesh position={[index % 2 ? -0.2 : 0.18, -0.34, 0.052]} rotation={[0, 0, index % 2 ? -0.22 : 0.22]}>
+            <boxGeometry args={[0.54, 0.045, 0.02]} />
+            <meshStandardMaterial color={SPATIAL_COLORS.steel} roughness={0.5} metalness={0.35} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+}
+
+function WaitingSideTable({ detailed }: { detailed: boolean }) {
+  return (
+    <group position={[-2.55, 0, -4.08]}>
+      <mesh position={[0, 0.54, 0]} castShadow>
+        <cylinderGeometry args={[0.48, 0.48, 0.07, 24]} />
+        <meshStandardMaterial color={SPATIAL_COLORS.graphite} roughness={0.42} metalness={0.22} />
+      </mesh>
+      <mesh position={[0, 0.28, 0]} castShadow>
+        <cylinderGeometry args={[0.05, 0.09, 0.5, 12]} />
+        <meshStandardMaterial color={SPATIAL_COLORS.chrome} {...SPATIAL_MATERIALS.chrome} />
+      </mesh>
+      <mesh position={[0, 0.055, 0]} castShadow>
+        <cylinderGeometry args={[0.32, 0.38, 0.07, 20]} />
+        <meshStandardMaterial color={SPATIAL_COLORS.chromeHighlight} {...SPATIAL_MATERIALS.chrome} />
+      </mesh>
+      {detailed ? (
+        <>
+          {[0, 0.028, 0.056].map((y, index) => (
+            <mesh key={y} position={[-0.1 + index * 0.025, 0.605 + y, 0.02]} rotation={[0, 0.18 - index * 0.06, 0]} castShadow>
+              <boxGeometry args={[0.43, 0.018, 0.31]} />
+              <meshStandardMaterial color={index === 1 ? SPATIAL_COLORS.woodTrim : SPATIAL_COLORS.wallSecondary} roughness={0.72} />
+            </mesh>
+          ))}
+          <ProductBottle position={[0.23, 0.72, -0.04]} tone={SPATIAL_COLORS.botanicalDark} height={0.18} />
+        </>
+      ) : null}
     </group>
   );
 }
@@ -347,6 +423,8 @@ export function BarbershopEnvironment() {
       <EntryGlass />
       <EntryConsole />
       <WaitingArea />
+      <WaitingSideTable detailed={!lowQuality} />
+      <WallArtGallery quality={quality} />
       <Cactus position={[4.95, 0, -3.65]} scale={0.95} />
       <CeilingLights quality={quality} />
 

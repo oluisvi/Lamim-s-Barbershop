@@ -65,7 +65,7 @@ export function HeaderHud() {
                 type="button"
                 onClick={toggleSound}
                 className="focus-ring hidden h-11 w-11 place-items-center rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] text-[var(--color-text-primary)] shadow-[0_8px_28px_rgba(17,17,17,.10)] backdrop-blur-md transition hover:bg-[var(--color-bg-subtle)] sm:grid"
-                aria-label={soundEnabled ? "Desativar som" : "Ativar som"}
+                aria-label={soundEnabled ? "Desativar som ambiente" : "Ativar som ambiente"}
               >
                 {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
               </button>

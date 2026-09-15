@@ -13,6 +13,7 @@ import { supportsWebGL } from "@/lib/webgl";
 import { DEMO_MODE } from "@/lib/constants";
 import { clampScrollProgress } from "@/lib/scrollJourney";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
+import { createBarbershopSoundscape, type BarbershopSoundscape } from "@/lib/barbershopSoundscape";
 
 const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then((mod) => mod.SceneCanvas), {
   ssr: false,
@@ -33,7 +34,7 @@ export function ExperienceShell() {
   const tourCompleted = useExperienceStore((s) => s.tourCompleted);
   const scrollProgress = useExperienceStore((s) => s.scrollProgress);
   const dismissTourResolution = useExperienceStore((s) => s.dismissTourResolution);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const soundscapeRef = useRef<BarbershopSoundscape | null>(null);
   const lockedScrollY = useRef(0);
   const scrollLockActive = useRef(false);
   const originalPageStyles = useRef<{ htmlOverflow: string; bodyOverflow: string; overscroll: string } | null>(null);
@@ -59,15 +60,19 @@ export function ExperienceShell() {
   }, [setQuality, setReducedMotion]);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (soundEnabled) {
-      audio.volume = 0.12;
-      audio.play().catch(() => undefined);
-    } else {
-      audio.pause();
-    }
+    const soundscape = soundscapeRef.current ?? createBarbershopSoundscape();
+    soundscapeRef.current = soundscape;
+
+    if (soundEnabled) void soundscape.start();
+    else soundscape.stop();
   }, [soundEnabled]);
+
+  useEffect(() => {
+    return () => {
+      soundscapeRef.current?.dispose();
+      soundscapeRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -185,7 +190,6 @@ export function ExperienceShell() {
           </div>
         )}
 
-        <audio ref={audioRef} src="/audio/room-tone.wav" loop preload="none" />
       </div>
     </main>
   );

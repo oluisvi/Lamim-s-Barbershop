@@ -38,7 +38,7 @@ export function TourResolution() {
           </div>
           <h2 className="font-display text-[clamp(2.6rem,7vw,4.4rem)] leading-[.88] tracking-[-0.05em] text-[var(--color-text-primary)]">Agora só falta você.</h2>
           <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--color-text-secondary)] sm:mt-4">
-            Você chegou à cadeira final. Pode agendar agora, abrir os serviços ou simplesmente rolar para cima e revisitar o ambiente.
+            Você terminou o percurso de frente para as cadeiras. Pode agendar agora, abrir os serviços ou simplesmente rolar para cima e revisitar o ambiente.
           </p>
         </div>
 
