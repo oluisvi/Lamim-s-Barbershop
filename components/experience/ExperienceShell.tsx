@@ -16,7 +16,7 @@ import { useExperienceStore } from "@/hooks/useExperienceStore";
 
 const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then((mod) => mod.SceneCanvas), {
   ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[#201a15]" />
+  loading: () => <div className="absolute inset-0 bg-[var(--color-bg-canvas)]" />
 });
 
 export function ExperienceShell() {
@@ -163,15 +163,15 @@ export function ExperienceShell() {
   }, [mode, setScrollProgress]);
 
   if (webgl === null) {
-    return <div className="grid min-h-[100dvh] place-items-center bg-[#201a15] text-[9px] uppercase tracking-[0.22em] text-[#d4c3ac]">Preparando a entrada…</div>;
+    return <div className="grid min-h-[100dvh] place-items-center bg-[var(--color-bg-canvas)] text-[9px] uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Preparando a entrada…</div>;
   }
   if (!webgl) return <NoWebGLFallback />;
 
   return (
-    <main ref={journeyRef} className="relative h-[500vh] w-full bg-[#201a15] sm:h-[600vh] lg:h-[680vh]">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[#201a15]">
+    <main ref={journeyRef} className="relative h-[500vh] w-full bg-[var(--color-bg-canvas)] sm:h-[600vh] lg:h-[680vh]">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[var(--color-bg-canvas)]">
         <SceneCanvas />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_52%,rgba(38,29,22,.22)_100%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_55%,rgba(17,17,17,.08)_100%)]" />
         <HeaderHud />
         <EntryGate />
         <BottomHud />
@@ -180,8 +180,8 @@ export function ExperienceShell() {
         <TourResolution />
 
         {DEMO_MODE && (
-          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[#bba88f] backdrop-blur lg:block">
-            Ambiente demonstrativo · assets oficiais pendentes
+          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-floating)] px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[var(--color-text-muted)] shadow-sm backdrop-blur lg:block">
+            Ambiente demonstrativo · referência visual real · medidas pendentes
           </div>
         )}
 

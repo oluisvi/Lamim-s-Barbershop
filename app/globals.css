@@ -3,26 +3,65 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0d0c0a;
-  --surface: #171511;
-  --surface-2: #211d17;
-  --cream: #f3eadb;
-  --muted: #b7aa98;
-  --gold: #c79d5f;
-  --line: rgba(243, 234, 219, 0.14);
-  --danger: #d47666;
+  /* Layer 1/2 — primitive + semantic tokens (Universal Adaptive Design System). */
+  --color-bg-canvas: #F4F0EA;
+  --color-bg-subtle: #F7F4EF;
+  --color-bg-muted: #E7E6E2;
+  --color-surface-elevated: #ECE6DD;
+  --color-surface-media: #DDD6CB;
+  --color-surface-floating: rgba(247, 244, 239, 0.9);
+  --color-surface-overlay: rgba(28, 28, 28, 0.34);
+  --color-bg-inverse: #111111;
+
+  --color-text-primary: #1C1C1C;
+  --color-text-secondary: #4D4B47;
+  --color-text-muted: #6E6A64;
+  --color-text-inverse: #F7F4EF;
+  --color-text-inverse-muted: #C7C7C4;
+  --color-text-inverse-subtle: #AEB1B3;
+  --color-text-inverse-faint: #969A9D;
+
+  --color-border-subtle: rgba(28, 28, 28, 0.10);
+  --color-border-default: rgba(28, 28, 28, 0.18);
+  --color-border-strong: rgba(28, 28, 28, 0.30);
+  --color-border-inverse: rgba(247, 244, 239, 0.22);
+
+  --color-action-primary: #111111;
+  --color-action-primary-hover: #272727;
+  --color-action-secondary: #F4F0EA;
+  --color-focus: #70806D;
+
+  --color-material-chrome: #A9B0B7;
+  --color-material-chrome-light: #D8DDE2;
+  --color-material-chrome-line: rgba(216, 221, 226, 0.55);
+  --color-material-steel: #7F8790;
+  --color-material-wood: #9E7758;
+  --color-material-floor: #B8B4AE;
+  --color-light-warm: #E8C9A2;
+  --color-botanical: #70806D;
+
+  /* Compatibility aliases while the existing UI migrates to semantic names. */
+  --bg: var(--color-bg-canvas);
+  --surface: var(--color-bg-subtle);
+  --surface-2: var(--color-surface-elevated);
+  --cream: var(--color-text-primary);
+  --muted: var(--color-text-muted);
+  --gold: var(--color-material-wood);
+  --line: var(--color-border-subtle);
+  --danger: #B85F52;
+
   --font-display: "Times New Roman";
   --font-sans: Arial;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; background: var(--bg); color: var(--cream); }
+html, body { margin: 0; padding: 0; background: var(--color-bg-canvas); color: var(--color-text-primary); }
 body { min-height: 100vh; overflow-x: hidden; font-family: var(--font-sans), sans-serif; }
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
-::selection { background: var(--gold); color: #0b0907; }
+::selection { background: var(--color-botanical); color: var(--color-text-inverse); }
 
 .sr-only {
   position: absolute;
@@ -37,13 +76,12 @@ button { font: inherit; }
 }
 
 .focus-ring:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--color-focus);
   outline-offset: 4px;
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { scrollbar-width: none; }
-
 
 /* UI-only entry handoff: the 3D camera remains fixed inside the barbershop. */
 .entry-gate__backdrop,
@@ -96,7 +134,6 @@ button { font: inherit; }
     transition-delay: 0s;
   }
 }
-
 
 .tour-resolution__card {
   animation: tour-resolution-in .58s cubic-bezier(.22,.75,.2,1) both;

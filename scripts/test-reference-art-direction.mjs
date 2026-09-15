@@ -19,9 +19,9 @@ test('editorial information page keeps full FIX content while avoiding generic c
   assert.doesNotMatch(info, /team\.map[\s\S]{0,500}rounded-\[28px\]/);
 });
 
-test('drawer follows the same editorial language for people and reviews', async () => {
+test('drawer follows the same semantic editorial language for people and reviews', async () => {
   const drawer = await source('components/hud/InfoDrawer.tsx');
-  assert.match(drawer, /border-y border-\[#2a211a\]\/14/);
+  assert.match(drawer, /var\(--color-border-default\)/);
   assert.match(drawer, /team\.map/);
   assert.match(drawer, /reviews\.map/);
   assert.doesNotMatch(drawer, /TeamPanel[\s\S]{0,900}rounded-3xl/);

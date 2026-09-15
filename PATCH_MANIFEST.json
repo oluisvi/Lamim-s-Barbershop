@@ -1,0 +1,144 @@
+{
+  "name": "Lamims Real Space V2",
+  "base_repository": "oluisvi/Lamim-s-Barbershop",
+  "base_branch": "main",
+  "direction": "Clean Spatial Premium",
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 2839
+    },
+    {
+      "path": "APPLY_V2.ps1",
+      "bytes": 996
+    },
+    {
+      "path": "README_APPLY.md",
+      "bytes": 2771
+    },
+    {
+      "path": "app/globals.css",
+      "bytes": 4400
+    },
+    {
+      "path": "app/info/page.tsx",
+      "bytes": 14729
+    },
+    {
+      "path": "app/loading.tsx",
+      "bytes": 255
+    },
+    {
+      "path": "app/not-found.tsx",
+      "bytes": 675
+    },
+    {
+      "path": "apply-v2.sh",
+      "bytes": 730
+    },
+    {
+      "path": "components/experience/ExperienceShell.tsx",
+      "bytes": 7609
+    },
+    {
+      "path": "components/experience/NoWebGLFallback.tsx",
+      "bytes": 1550
+    },
+    {
+      "path": "components/hud/BottomHud.tsx",
+      "bytes": 2116
+    },
+    {
+      "path": "components/hud/EntryGate.tsx",
+      "bytes": 3949
+    },
+    {
+      "path": "components/hud/HeaderHud.tsx",
+      "bytes": 6200
+    },
+    {
+      "path": "components/hud/InfoDrawer.tsx",
+      "bytes": 11327
+    },
+    {
+      "path": "components/hud/MobileJourneyHud.tsx",
+      "bytes": 3421
+    },
+    {
+      "path": "components/hud/TourResolution.tsx",
+      "bytes": 4178
+    },
+    {
+      "path": "components/three/BarbershopEnvironment.tsx",
+      "bytes": 14729
+    },
+    {
+      "path": "components/three/SceneHotspots.tsx",
+      "bytes": 1897
+    },
+    {
+      "path": "data/hotspots.ts",
+      "bytes": 1429
+    },
+    {
+      "path": "data/media.ts",
+      "bytes": 657
+    },
+    {
+      "path": "docs/ASSET_SOURCES.md",
+      "bytes": 2906
+    },
+    {
+      "path": "docs/standards/HYPER_MASTER_v4.txt",
+      "bytes": 56002
+    },
+    {
+      "path": "docs/standards/UNIVERSAL_ADAPTIVE_DESIGN_SYSTEM.md",
+      "bytes": 42579
+    },
+    {
+      "path": "lib/design-tokens.ts",
+      "bytes": 1146
+    },
+    {
+      "path": "package.json",
+      "bytes": 2202
+    },
+    {
+      "path": "public/images/lamims/barbershop-in-use.webp",
+      "bytes": 152782
+    },
+    {
+      "path": "public/images/lamims/interior-aisle.webp",
+      "bytes": 110488
+    },
+    {
+      "path": "public/images/lamims/interior-stations.webp",
+      "bytes": 110358
+    },
+    {
+      "path": "public/images/lamims/service-closeup.webp",
+      "bytes": 121064
+    },
+    {
+      "path": "scripts/test-hybrid-premium.mjs",
+      "bytes": 2556
+    },
+    {
+      "path": "scripts/test-motion-optimization.mjs",
+      "bytes": 4406
+    },
+    {
+      "path": "scripts/test-premium-environment-update.mjs",
+      "bytes": 3312
+    },
+    {
+      "path": "scripts/test-real-space-v2.mjs",
+      "bytes": 3034
+    },
+    {
+      "path": "scripts/test-reference-art-direction.mjs",
+      "bytes": 1749
+    }
+  ]
+}

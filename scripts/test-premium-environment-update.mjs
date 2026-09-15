@@ -13,7 +13,7 @@ test('header keeps initial booking usable while hiding experience controls until
   ]);
 
   assert.match(header, /experienceActive = mode !== "idle"/);
-  assert.match(header, /<header className="pointer-events-none fixed[^"]*z-\[70\]/);
+  assert.match(header, /<header className="pointer-events-none fixed[^\"]*z-\[70\]/);
   assert.match(header, /className="fixed inset-0 z-\[60\]/);
   assert.match(header, /hidden[^\n]*sm:grid/);
   assert.match(entry, /z-40/);
@@ -34,41 +34,43 @@ test('mobile exploration contains no persistent movement controls and keeps util
   assert.match(header, /hidden min-h-11[\s\S]*sm:inline-flex/);
 });
 
-test('environment uses a brighter material palette and richer physical set dressing', async () => {
-  const environment = await source('components/three/BarbershopEnvironment.tsx');
+test('environment matches the real-space clean palette and material language', async () => {
+  const [environment, tokens] = await Promise.all([
+    source('components/three/BarbershopEnvironment.tsx'),
+    source('lib/design-tokens.ts'),
+  ]);
 
-  assert.match(environment, /ProductShelf/);
+  assert.match(environment, /WallMirror/);
   assert.match(environment, /ToolTrolley/);
-  assert.match(environment, /Plant/);
-  assert.match(environment, /SideTable/);
+  assert.match(environment, /Cactus/);
   assert.match(environment, /EntryGlass/);
-  assert.match(environment, /FramedPhoto/);
-  assert.match(environment, /#c8b79f|#b8a68e|#a99175/i);
-  assert.match(environment, /#8a4f2d|#8b5738|#7a452c/i);
+  assert.match(environment, /CeilingLightStrip/);
+  assert.match(environment, /SPATIAL_COLORS\.chairUpholstery/);
+  assert.match(environment, /SPATIAL_COLORS\.chrome/);
+  assert.match(tokens, /wall:\s*"#F4F0EA"/i);
+  assert.match(tokens, /floor:\s*"#B8B4AE"/i);
+  assert.match(tokens, /chairUpholstery:\s*"#111111"/i);
 });
 
-
-test('information surfaces use high-contrast warm light panels instead of all-black chrome', async () => {
-  const [drawer, resolution, fallback] = await Promise.all([
+test('information surfaces use semantic light surfaces instead of dark-only chrome', async () => {
+  const [drawer, resolution, fallback, globals] = await Promise.all([
     source('components/hud/InfoDrawer.tsx'),
     source('components/hud/TourResolution.tsx'),
     source('components/experience/NoWebGLFallback.tsx'),
+    source('app/globals.css'),
   ]);
 
-  assert.match(drawer, /bg-\[#f1e7d7\]/i);
-  assert.match(drawer, /text-\[#2a211a\]/i);
-  assert.match(resolution, /bg-\[#f1e7d7\]/i);
-  assert.match(fallback, /bg-\[#efe4d3\]/i);
+  assert.match(drawer, /bg-\[var\(--color-surface-floating\)\]/i);
+  assert.match(drawer, /text-\[var\(--color-text-primary\)\]/i);
+  assert.match(resolution, /bg-\[var\(--color-surface-floating\)\]/i);
+  assert.match(fallback, /bg-\[var\(--color-bg-canvas\)\]/i);
+  assert.match(globals, /color-scheme:\s*light/i);
 });
 
-test('scroll remains the only spatial navigation model on every breakpoint', async () => {
-  const [camera, shell] = await Promise.all([
-    source('components/three/CameraRig.tsx'),
-    source('components/experience/ExperienceShell.tsx'),
-  ]);
+test('scroll remains the spatial navigation timeline on every breakpoint', async () => {
+  const shell = await source('components/experience/ExperienceShell.tsx');
 
-  assert.doesNotMatch(camera, /KeyW|KeyA|KeyS|KeyD|ArrowUp|ArrowDown|ArrowLeft|ArrowRight/);
-  assert.match(camera, /scrollProgress/);
+  assert.doesNotMatch(shell, /<MobileControls/);
   assert.match(shell, /window\.addEventListener\("scroll"/);
   assert.match(shell, /h-\[500vh\]/);
   assert.match(shell, /sm:h-\[600vh\]/);

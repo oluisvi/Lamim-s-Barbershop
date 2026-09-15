@@ -29,19 +29,12 @@ test('camera motion is arc-length based, forward-facing, and only smooths progre
 test('authored path avoids abrupt reversals and starts inside the shop', async () => {
   const { SCROLL_CAMERA_POINTS } = await import('../data/scroll-path.ts');
   assert.ok(SCROLL_CAMERA_POINTS[0][2] < 10.8, 'tour should begin inside the room rather than outside the glass door');
-
   for (let i = 1; i < SCROLL_CAMERA_POINTS.length; i++) {
     assert.ok(length3(SCROLL_CAMERA_POINTS[i - 1], SCROLL_CAMERA_POINTS[i]) < 4.25, `segment ${i} is too long`);
   }
   for (let i = 1; i < SCROLL_CAMERA_POINTS.length - 1; i++) {
-    const incoming = [
-      SCROLL_CAMERA_POINTS[i][0] - SCROLL_CAMERA_POINTS[i - 1][0], 0,
-      SCROLL_CAMERA_POINTS[i][2] - SCROLL_CAMERA_POINTS[i - 1][2],
-    ];
-    const outgoing = [
-      SCROLL_CAMERA_POINTS[i + 1][0] - SCROLL_CAMERA_POINTS[i][0], 0,
-      SCROLL_CAMERA_POINTS[i + 1][2] - SCROLL_CAMERA_POINTS[i][2],
-    ];
+    const incoming = [SCROLL_CAMERA_POINTS[i][0] - SCROLL_CAMERA_POINTS[i - 1][0], 0, SCROLL_CAMERA_POINTS[i][2] - SCROLL_CAMERA_POINTS[i - 1][2]];
+    const outgoing = [SCROLL_CAMERA_POINTS[i + 1][0] - SCROLL_CAMERA_POINTS[i][0], 0, SCROLL_CAMERA_POINTS[i + 1][2] - SCROLL_CAMERA_POINTS[i][2]];
     assert.ok(dot2(incoming, outgoing) > -0.45, `turn ${i} reverses too sharply`);
   }
 });
@@ -75,16 +68,14 @@ test('entry handoff is UI-only and the route remains scroll-only', async () => {
   assert.match(mobile, /return null/);
 });
 
-
 test('environment scales dynamic lighting by quality tier instead of paying full point-light cost on mobile', async () => {
   const environment = await source('components/three/BarbershopEnvironment.tsx');
   assert.match(environment, /quality === "high"/);
   assert.match(environment, /quality === "balanced"/);
-  assert.match(environment, /showStationAccent/);
+  assert.match(environment, /accentLights/);
   assert.match(environment, /shadowMapSize/);
-  assert.doesNotMatch(environment, /<CeilingLights lowQuality=/);
+  assert.match(environment, /quality === "low"/);
 });
-
 
 test('responsive FOV changes do not reset camera position after initial mount', async () => {
   const camera = await source('components/three/CameraRig.tsx');
@@ -97,7 +88,6 @@ test('camera look tracks stay aligned with authored path points', async () => {
   assert.equal(path.SCROLL_LOOK_SIDE_OFFSETS.length, path.SCROLL_CAMERA_POINTS.length);
   assert.equal(path.SCROLL_LOOK_HEIGHT_OFFSETS.length, path.SCROLL_CAMERA_POINTS.length);
 });
-
 
 test('UI intro keeps navigation chrome out of the handoff', async () => {
   const header = await source('components/hud/HeaderHud.tsx');

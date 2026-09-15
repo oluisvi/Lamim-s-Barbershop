@@ -23,30 +23,31 @@ test('hybrid preserves FIX COMPLETE content destinations', async () => {
   }
 });
 
-test('hybrid keeps dark premium shell and warm readable surfaces', async () => {
-  const [shell, drawer, info, resolution] = await Promise.all([
+test('hybrid V2 uses clean light spatial shell with graphite inverse moments', async () => {
+  const [shell, drawer, info, resolution, globals] = await Promise.all([
     source('components/experience/ExperienceShell.tsx'),
     source('components/hud/InfoDrawer.tsx'),
     source('app/info/page.tsx'),
     source('components/hud/TourResolution.tsx'),
+    source('app/globals.css'),
   ]);
-  assert.match(shell, /#201a15/);
-  assert.match(drawer, /#f1e7d7/);
-  assert.match(info, /#f1e7d7/);
-  assert.match(info, /#17130f/);
-  assert.match(resolution, /#f1e7d7/);
+  assert.match(shell, /var\(--color-bg-canvas\)/);
+  assert.match(drawer, /var\(--color-surface-floating\)/);
+  assert.match(info, /var\(--color-bg-inverse\)/);
+  assert.match(resolution, /var\(--color-surface-floating\)/);
+  assert.match(globals, /--color-bg-canvas:\s*#F4F0EA/i);
 });
 
-test('hybrid uses V4 enriched 3D and scroll-only movement', async () => {
+test('hybrid keeps enriched 3D and scroll-only movement', async () => {
   const [environment, camera, mobile, bottom] = await Promise.all([
     source('components/three/BarbershopEnvironment.tsx'),
     source('components/three/CameraRig.tsx'),
     source('components/hud/MobileControls.tsx'),
     source('components/hud/BottomHud.tsx'),
   ]);
-  assert.match(environment, /function ProductShelf/);
+  assert.match(environment, /function WallStation/);
   assert.match(environment, /function ToolTrolley/);
-  assert.match(environment, /function Plant/);
+  assert.match(environment, /function Cactus/);
   assert.match(camera, /getPointAt/);
   assert.match(camera, /getTangentAt/);
   assert.match(camera, /scrollProgress/);

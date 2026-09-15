@@ -22,17 +22,17 @@ export function MobileJourneyHud() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-[55] px-3 pb-[max(.7rem,env(safe-area-inset-bottom))] sm:hidden">
-      <div className="overflow-hidden rounded-[22px] border border-white/10 bg-[#17130f]/82 shadow-[0_18px_50px_rgba(0,0,0,.28)] backdrop-blur-xl">
+      <div className="overflow-hidden rounded-[22px] border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] text-[var(--color-text-primary)] shadow-[0_18px_50px_rgba(17,17,17,.16)] backdrop-blur-xl">
         <div className="flex items-center justify-between gap-3 px-4 py-2.5">
           <div className="min-w-0">
-            <div className="truncate text-[8px] font-semibold uppercase tracking-[0.2em] text-[#d8c8b2]">{scene.label}</div>
+            <div className="truncate text-[8px] font-semibold uppercase tracking-[0.2em] text-[var(--color-text-muted)]">{scene.label}</div>
             {showHint ? (
-              <div className="mt-1 flex items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-[#fff8ec]">
+              <div className="mt-1 flex items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-[var(--color-text-primary)]">
                 Deslize para caminhar <ChevronDown size={12} className="animate-bounce" />
               </div>
             ) : null}
           </div>
-          <div className="shrink-0 text-[8px] font-semibold tabular-nums tracking-[0.16em] text-[#d9c8b0]">{String(percent).padStart(2, "0")}%</div>
+          <div className="shrink-0 text-[8px] font-semibold tabular-nums tracking-[0.16em] text-[var(--color-text-secondary)]">{String(percent).padStart(2, "0")}%</div>
         </div>
 
         {hotspot ? (
@@ -42,21 +42,21 @@ export function MobileJourneyHud() {
               trackEvent("hotspot_opened", { hotspot: hotspot.id, surface: "mobile_journey_hud" });
               openPanel(hotspot.panel);
             }}
-            className="focus-ring pointer-events-auto flex min-h-[54px] w-full items-center justify-between gap-3 border-t border-white/10 bg-[#f1e7d7] px-4 text-left text-[#2a211a] active:bg-[#e6dac8]"
+            className="focus-ring pointer-events-auto flex min-h-[54px] w-full items-center justify-between gap-3 border-t border-[var(--color-border-subtle)] bg-[var(--color-surface-elevated)] px-4 text-left text-[var(--color-text-primary)] active:bg-[var(--color-bg-subtle)]"
             aria-label={hotspot.label}
           >
             <span className="min-w-0">
-              <span className="block truncate text-[8px] font-semibold uppercase tracking-[0.18em] text-[#805c3c]">{hotspot.eyebrow}</span>
+              <span className="block truncate text-[8px] font-semibold uppercase tracking-[0.18em] text-[var(--color-botanical)]">{hotspot.eyebrow}</span>
               <span className="mt-0.5 block truncate font-display text-[1.15rem] leading-none tracking-[-0.025em]">{hotspot.label}</span>
             </span>
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#2a211a] text-[#fff8ec]">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[var(--color-action-primary)] text-[var(--color-text-inverse)]">
               <ArrowUpRight size={15} />
             </span>
           </button>
         ) : null}
 
-        <div className="h-[2px] bg-white/10">
-          <div className="h-full bg-[#c69b63] transition-[width] duration-150 ease-out" style={{ width: `${percent}%` }} />
+        <div className="h-[2px] bg-black/10">
+          <div className="h-full bg-[var(--color-botanical)] transition-[width] duration-150 ease-out" style={{ width: `${percent}%` }} />
         </div>
       </div>
     </div>

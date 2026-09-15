@@ -64,7 +64,7 @@ export function HeaderHud() {
               <button
                 type="button"
                 onClick={toggleSound}
-                className="focus-ring hidden h-11 w-11 place-items-center rounded-full border border-[#eadfce]/20 bg-[#29231d]/78 text-[#fff8ec] shadow-[0_8px_28px_rgba(0,0,0,.22)] backdrop-blur-md transition hover:border-[#eadfce]/40 hover:bg-[#342b23]/90 sm:grid"
+                className="focus-ring hidden h-11 w-11 place-items-center rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] text-[var(--color-text-primary)] shadow-[0_8px_28px_rgba(17,17,17,.10)] backdrop-blur-md transition hover:bg-[var(--color-bg-subtle)] sm:grid"
                 aria-label={soundEnabled ? "Desativar som" : "Ativar som"}
               >
                 {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
@@ -72,7 +72,7 @@ export function HeaderHud() {
               <button
                 type="button"
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="focus-ring hidden h-11 w-11 place-items-center rounded-full border border-[#eadfce]/20 bg-[#29231d]/78 text-[#fff8ec] shadow-[0_8px_28px_rgba(0,0,0,.22)] backdrop-blur-md transition hover:border-[#eadfce]/40 hover:bg-[#342b23]/90 sm:grid"
+                className="focus-ring hidden h-11 w-11 place-items-center rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] text-[var(--color-text-primary)] shadow-[0_8px_28px_rgba(17,17,17,.10)] backdrop-blur-md transition hover:bg-[var(--color-bg-subtle)] sm:grid"
                 aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
                 aria-expanded={menuOpen}
               >
@@ -85,7 +85,7 @@ export function HeaderHud() {
             href={business.fresha.bookingUrl}
             target="_blank"
             rel="noreferrer"
-            className={`focus-ring hidden min-h-11 items-center rounded-full bg-[#f4e8d6] px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#211b16] shadow-[0_8px_24px_rgba(30,24,18,.16)] transition-all duration-500 hover:bg-white sm:inline-flex ${showBooking ? "opacity-100 translate-y-0" : "pointer-events-none -translate-y-1 opacity-0"}`}
+            className={`focus-ring hidden min-h-11 items-center rounded-full bg-[var(--color-action-primary)] px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--color-text-inverse)] shadow-[0_8px_24px_rgba(17,17,17,.15)] transition-all duration-500 hover:bg-[var(--color-action-primary-hover)] sm:inline-flex ${showBooking ? "opacity-100 translate-y-0" : "pointer-events-none -translate-y-1 opacity-0"}`}
           >
             Agendar horário
           </a>
@@ -97,27 +97,27 @@ export function HeaderHud() {
           <button
             type="button"
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 z-[60] hidden cursor-default bg-[#17120e]/20 backdrop-blur-[1px] sm:block"
+            className="fixed inset-0 z-[60] hidden cursor-default bg-[var(--color-surface-overlay)] backdrop-blur-[1px] sm:block"
             aria-label="Fechar menu"
           />
-          <nav className="fixed right-6 top-24 z-[80] hidden w-[min(340px,calc(100vw-48px))] rounded-[24px] border border-[#eadfce]/16 bg-[#29231d]/95 p-3 shadow-2xl backdrop-blur-xl sm:block">
-          <div className="px-3 pb-3 pt-2 text-[9px] uppercase tracking-[0.24em] text-[#c9b89f]">Navegação</div>
-          {items.map(([label, panel]) => (
-            <button
-              key={panel}
-              type="button"
-              onClick={() => openPanel(panel)}
-              className="focus-ring flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left text-sm text-[#fff8ec] transition hover:bg-white/[.07]"
-            >
-              <span>{label}</span>
-              <span className="text-[#c69b63]">↗</span>
-            </button>
-          ))}
-          <div className="mt-2 border-t border-[#eadfce]/14 pt-2">
-            <Link href="/info" className="focus-ring flex rounded-2xl px-3 py-3 text-sm text-[#d7c7b1] transition hover:bg-white/[.07]">
-              Ver versão acessível / SEO
-            </Link>
-          </div>
+          <nav className="fixed right-6 top-24 z-[80] hidden w-[min(340px,calc(100vw-48px))] rounded-[24px] border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] p-3 text-[var(--color-text-primary)] shadow-[0_24px_70px_rgba(17,17,17,.16)] backdrop-blur-xl sm:block">
+            <div className="px-3 pb-3 pt-2 text-[9px] uppercase tracking-[0.24em] text-[var(--color-text-muted)]">Navegação</div>
+            {items.map(([label, panel]) => (
+              <button
+                key={panel}
+                type="button"
+                onClick={() => openPanel(panel)}
+                className="focus-ring flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left text-sm text-[var(--color-text-primary)] transition hover:bg-black/[.05]"
+              >
+                <span>{label}</span>
+                <span className="text-[var(--color-botanical)]">↗</span>
+              </button>
+            ))}
+            <div className="mt-2 border-t border-[var(--color-border-subtle)] pt-2">
+              <Link href="/info" className="focus-ring flex rounded-2xl px-3 py-3 text-sm text-[var(--color-text-secondary)] transition hover:bg-black/[.05]">
+                Ver versão acessível / SEO
+              </Link>
+            </div>
           </nav>
         </>
       )}
@@ -128,8 +128,8 @@ export function HeaderHud() {
 function Brand() {
   return (
     <>
-      <span className="block font-display text-lg tracking-[-0.03em] text-[#fff8ec] drop-shadow-[0_2px_8px_rgba(0,0,0,.35)] sm:text-xl md:text-2xl">LAMIM&apos;S</span>
-      <span className="block text-[8px] uppercase tracking-[0.28em] text-[#dfcfb9] drop-shadow-[0_1px_5px_rgba(0,0,0,.45)]">Barbearia · Jacareí</span>
+      <span className="block font-display text-lg tracking-[-0.03em] text-[var(--color-text-primary)] drop-shadow-[0_1px_8px_rgba(255,255,255,.9)] sm:text-xl md:text-2xl">LAMIM&apos;S</span>
+      <span className="block text-[8px] uppercase tracking-[0.28em] text-[var(--color-text-secondary)] drop-shadow-[0_1px_6px_rgba(255,255,255,.9)]">Barbearia · Jacareí</span>
     </>
   );
 }
