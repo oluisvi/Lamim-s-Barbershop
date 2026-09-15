@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { EntryGate } from "@/components/hud/EntryGate";
 import { HeaderHud } from "@/components/hud/HeaderHud";
 import { BottomHud } from "@/components/hud/BottomHud";
@@ -14,6 +14,7 @@ import { DEMO_MODE } from "@/lib/constants";
 import { clampScrollProgress } from "@/lib/scrollJourney";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
 import { createBarbershopSoundscape, type BarbershopSoundscape } from "@/lib/barbershopSoundscape";
+import { ThematicEntry } from "./ThematicEntry";
 
 const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then((mod) => mod.SceneCanvas), {
   ssr: false,
@@ -22,6 +23,7 @@ const SceneCanvas = dynamic(() => import("@/components/three/SceneCanvas").then(
 
 export function ExperienceShell() {
   const [webgl, setWebgl] = useState<boolean | null>(null);
+  const [sceneReady, setSceneReady] = useState(false);
   const journeyRef = useRef<HTMLElement | null>(null);
   const scrollDistanceRef = useRef(1);
   const soundEnabled = useExperienceStore((s) => s.soundEnabled);
@@ -38,6 +40,7 @@ export function ExperienceShell() {
   const lockedScrollY = useRef(0);
   const scrollLockActive = useRef(false);
   const originalPageStyles = useRef<{ htmlOverflow: string; bodyOverflow: string; overscroll: string } | null>(null);
+  const handleSceneReady = useCallback(() => setSceneReady(true), []);
 
   useEffect(() => {
     setWebgl(supportsWebGL());
@@ -168,29 +171,44 @@ export function ExperienceShell() {
   }, [mode, setScrollProgress]);
 
   if (webgl === null) {
-    return <div className="grid min-h-[100dvh] place-items-center bg-[var(--color-bg-canvas)] text-[9px] uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Preparando a entrada…</div>;
+    return (
+      <>
+        <ThematicEntry ready={false} />
+        <div className="grid min-h-[100dvh] place-items-center bg-[var(--color-bg-canvas)] text-[9px] uppercase tracking-[0.22em] text-[var(--color-text-muted)]">Preparando a entrada…</div>
+      </>
+    );
   }
-  if (!webgl) return <NoWebGLFallback />;
+  if (!webgl) {
+    return (
+      <>
+        <ThematicEntry ready />
+        <NoWebGLFallback />
+      </>
+    );
+  }
 
   return (
-    <main ref={journeyRef} className="relative h-[500vh] w-full bg-[var(--color-bg-canvas)] sm:h-[600vh] lg:h-[680vh]">
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[var(--color-bg-canvas)]">
-        <SceneCanvas />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_55%,rgba(17,17,17,.08)_100%)]" />
-        <HeaderHud />
-        <EntryGate />
-        <BottomHud />
-        <MobileJourneyHud />
-        <InfoDrawer />
-        <TourResolution />
+    <>
+      <ThematicEntry ready={sceneReady} />
+      <main ref={journeyRef} className="relative h-[500vh] w-full bg-[var(--color-bg-canvas)] sm:h-[600vh] lg:h-[680vh]">
+        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden bg-[var(--color-bg-canvas)]">
+          <SceneCanvas onReady={handleSceneReady} />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_44%,transparent_55%,rgba(17,17,17,.08)_100%)]" />
+          <HeaderHud />
+          <EntryGate />
+          <BottomHud />
+          <MobileJourneyHud />
+          <InfoDrawer />
+          <TourResolution />
 
-        {DEMO_MODE && (
-          <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-floating)] px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[var(--color-text-muted)] shadow-sm backdrop-blur lg:block">
-            Ambiente demonstrativo · referência visual real · medidas pendentes
-          </div>
-        )}
+          {DEMO_MODE && (
+            <div className="pointer-events-none absolute bottom-4 left-1/2 z-20 hidden -translate-x-1/2 rounded-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-floating)] px-3 py-1.5 text-[8px] uppercase tracking-[0.14em] text-[var(--color-text-muted)] shadow-sm backdrop-blur lg:block">
+              Ambiente demonstrativo · referência visual real · medidas pendentes
+            </div>
+          )}
 
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }
