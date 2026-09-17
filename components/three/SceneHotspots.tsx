@@ -3,15 +3,32 @@
 import { useEffect, useState } from "react";
 import { Html } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
+import * as THREE from "three";
 import type { HotspotConfig } from "@/data/hotspots";
 import { useExperienceStore } from "@/hooks/useExperienceStore";
 import { getActiveHotspot } from "@/lib/hotspotJourney";
+import { clampHotspotScreenPosition } from "@/lib/hotspotScreenPosition";
 import { trackEvent } from "@/lib/analytics";
+
+const projectedHotspotPosition = new THREE.Vector3();
+
+function calculateMobileHotspotPosition(
+  object: THREE.Object3D,
+  camera: THREE.Camera,
+  size: { width: number; height: number },
+): [number, number] {
+  projectedHotspotPosition.setFromMatrixPosition(object.matrixWorld).project(camera);
+
+  const screenX = (projectedHotspotPosition.x * 0.5 + 0.5) * size.width;
+  const screenY = (-projectedHotspotPosition.y * 0.5 + 0.5) * size.height;
+
+  return clampHotspotScreenPosition(screenX, screenY, size.width, size.height);
+}
 
 function HotspotMarker({ hotspot }: { hotspot: HotspotConfig }) {
   const openPanel = useExperienceStore((s) => s.openPanel);
-  const width = useThree((state) => state.size.width);
-  const isMobile = width < 640;
+  const viewport = useThree((state) => state.size);
+  const isMobile = viewport.width < 640 || viewport.height < 520;
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,6 +47,7 @@ function HotspotMarker({ hotspot }: { hotspot: HotspotConfig }) {
     <Html
       position={isMobile ? mobilePosition : hotspot.position}
       center
+      calculatePosition={isMobile ? calculateMobileHotspotPosition : undefined}
       distanceFactor={isMobile ? 5.15 : 6.5}
       occlude={false}
       zIndexRange={[30, 0]}
@@ -45,7 +63,7 @@ function HotspotMarker({ hotspot }: { hotspot: HotspotConfig }) {
           openPanel(hotspot.panel);
         }}
         aria-label={hotspot.label}
-        className={`group pointer-events-auto flex min-h-11 max-w-[min(68vw,13rem)] touch-manipulation items-center gap-2 whitespace-nowrap rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] px-3 py-2 text-[8px] font-semibold uppercase tracking-[0.15em] text-[var(--color-text-primary)] shadow-[0_12px_32px_rgba(17,17,17,.14)] backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] sm:max-w-[min(78vw,18rem)] sm:text-[9px] sm:tracking-[0.16em] md:text-[10px] md:tracking-[0.18em] ${visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-95 opacity-0"}`}
+        className={`group pointer-events-auto flex min-h-11 max-w-[min(60vw,12rem)] touch-manipulation items-center gap-2 whitespace-nowrap rounded-full border border-[var(--color-border-default)] bg-[var(--color-surface-floating)] px-3 py-2 text-[8px] font-semibold uppercase tracking-[0.15em] text-[var(--color-text-primary)] shadow-[0_12px_32px_rgba(17,17,17,.14)] backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus)] sm:max-w-[min(78vw,18rem)] sm:text-[9px] sm:tracking-[0.16em] md:text-[10px] md:tracking-[0.18em] ${visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-2 scale-95 opacity-0"}`}
       >
         <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-botanical)] shadow-[0_0_14px_rgba(112,128,109,.42)]" />
         <span className="truncate">{hotspot.label}</span>

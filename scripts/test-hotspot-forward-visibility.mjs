@@ -21,6 +21,8 @@ test('spatial action chips are available on mobile and scale with the viewport',
   assert.match(source, /useThree/);
   assert.match(source, /isMobile/);
   assert.match(source, /distanceFactor=\{isMobile \? 5\.15 : 6\.5\}/);
+  assert.match(source, /calculatePosition=\{isMobile/);
+  assert.match(source, /clampHotspotScreenPosition/);
   assert.match(source, /pointer-events-auto flex/);
   assert.match(source, /mobile_spatial_hotspot/);
   assert.doesNotMatch(source, /group hidden[^\n]*sm:flex/);

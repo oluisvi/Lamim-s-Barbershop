@@ -1,13 +1,15 @@
 {
-  "name": "Lamims V2.3 Mobile Spatial Hotspots + Mobile Parity + Jazz",
+  "name": "Lamims V2.4 Mobile Spatial Hotspots Viewport-Safe",
   "target_branch": "v2-real-space",
   "warning": "Do not upload this patch to main while client review is ongoing.",
+  "cumulative_from": "V2.3 Mobile Spatial Hotspots + Mobile Parity + Jazz",
   "preserves": "Current ThematicEntry/ExperienceShell architecture; patch does not overwrite ExperienceShell.tsx.",
+  "viewport_strategy": "3D world anchor -> screen projection -> touch-safe screen-space clamp on compact viewports",
   "files": [
     {
       "path": "README_UPLOAD.md",
-      "bytes": 2303,
-      "sha256": "d1ef6feb8f7a6a8bed16691a3b1e486f12e4c10b6012597dddb7922238e399c7"
+      "bytes": 3324,
+      "sha256": "9db21730b50769a4d74488a468da8a9c8621f83957321f271db383fb068aca88"
     },
     {
       "path": "components/hud/HeaderHud.tsx",
@@ -26,8 +28,8 @@
     },
     {
       "path": "components/three/SceneHotspots.tsx",
-      "bytes": 2845,
-      "sha256": "30df7a16e0fc8556be68be77a69835cade6d7deae937bbf1acb1840d582d123e"
+      "bytes": 3592,
+      "sha256": "850ac65b297ca841178eb572a964224eb97aec460b2c34a2f48dd959f7d175f4"
     },
     {
       "path": "data/scroll-path.ts",
@@ -45,24 +47,34 @@
       "sha256": "3045c0bf11ad58e57009eb27d928dc0fde66da2645a21744995bc8f9569e6436"
     },
     {
+      "path": "lib/hotspotScreenPosition.ts",
+      "bytes": 1741,
+      "sha256": "7cfdca5b31fdc95a5db17967d740c1fab2cdab62b60f65607f660a628c2d8438"
+    },
+    {
       "path": "package.json",
-      "bytes": 2438,
-      "sha256": "02c9b5085eaf2e40de5f97ea0aaf6719a938d46c92b2072ece8e7d0e27107d4b"
+      "bytes": 2590,
+      "sha256": "7d66fe5d488f432ac6731d0d0e0fdd2d31488313e4b213ca12b62d9ba59cf095"
     },
     {
       "path": "scripts/test-hotspot-forward-visibility.mjs",
-      "bytes": 1444,
-      "sha256": "b5a9c46cfc44b1fcf90f93a149daeb43228b61e0a3374498b8bdbd923330b757"
+      "bytes": 1554,
+      "sha256": "2c3cf03da99c67c2b05d0415078ab2c89524a8737d029a0f6c081b9217170ac6"
     },
     {
       "path": "scripts/test-mobile-experience.mjs",
-      "bytes": 3577,
-      "sha256": "5c287eeb064de01230faf859cc56d1034342852ab1c25c79b68614a4fd8467b1"
+      "bytes": 4782,
+      "sha256": "54d80379a0438877dc45f369216de8cb53e4df1559ea9f7c609f9b6827f22fee"
+    },
+    {
+      "path": "scripts/test-mobile-hotspot-viewport.mjs",
+      "bytes": 1261,
+      "sha256": "aebafdcba328cb1ece1514f2ba4b6dd4c9372531babae2b98b27f5614b394c1f"
     },
     {
       "path": "scripts/test-mobile-parity.mjs",
       "bytes": 2633,
-      "sha256": "1b10e912813e9193b1ac9a2ea6335397826697f03402299b7b4c27b5f54d47c0"
+      "sha256": "49112f7cd4480fab831c2fc13a080056bdd4c3a3eac828ef87044530ffd22fdd"
     }
   ]
 }

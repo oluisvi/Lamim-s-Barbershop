@@ -43,7 +43,7 @@ test('mobile contextual information is spatial while bottom HUD stays minimal', 
   assert.match(mobileHud, /max-w-\[32rem\]/);
   assert.doesNotMatch(mobileHud, /getActiveHotspot|openPanel\(hotspot\.panel\)/);
   assert.match(spatial, /mobile_spatial_hotspot/);
-  assert.match(spatial, /max-w-\[min\(68vw,13rem\)\]/);
+  assert.match(spatial, /max-w-\[min\(60vw,12rem\)\]/);
 });
 
 test('small mobile layouts keep final actions single-column before 380px', async () => {
