@@ -1,43 +1,68 @@
 {
-  "name": "Lamim's V2.1 Atmosphere & Tour Ending",
+  "name": "Lamims V2.3 Mobile Spatial Hotspots + Mobile Parity + Jazz",
   "target_branch": "v2-real-space",
-  "do_not_apply_to": "main",
+  "warning": "Do not upload this patch to main while client review is ongoing.",
+  "preserves": "Current ThematicEntry/ExperienceShell architecture; patch does not overwrite ExperienceShell.tsx.",
   "files": [
     {
-      "path": "AGENTS.md",
-      "bytes": 3537
-    },
-    {
       "path": "README_UPLOAD.md",
-      "bytes": 2054
-    },
-    {
-      "path": "components/experience/ExperienceShell.tsx",
-      "bytes": 7771
+      "bytes": 2303,
+      "sha256": "d1ef6feb8f7a6a8bed16691a3b1e486f12e4c10b6012597dddb7922238e399c7"
     },
     {
       "path": "components/hud/HeaderHud.tsx",
-      "bytes": 6218
+      "bytes": 7911,
+      "sha256": "a4750abc53253bc107171ec73afd484eacf62b616b1ab0d937f96fb2e9671d28"
+    },
+    {
+      "path": "components/hud/MobileJourneyHud.tsx",
+      "bytes": 2004,
+      "sha256": "3a7f723fbd9113d0c86bec050b5774cd663d5fdb2f3250f6f2fdfd74c73c7524"
     },
     {
       "path": "components/hud/TourResolution.tsx",
-      "bytes": 4201
+      "bytes": 4239,
+      "sha256": "948f93a08270654f5d3a303c378703b18753bb8f0e55d4b1a1e9e36c4a69e873"
     },
     {
-      "path": "components/three/BarbershopEnvironment.tsx",
-      "bytes": 18008
+      "path": "components/three/SceneHotspots.tsx",
+      "bytes": 2845,
+      "sha256": "30df7a16e0fc8556be68be77a69835cade6d7deae937bbf1acb1840d582d123e"
     },
     {
       "path": "data/scroll-path.ts",
-      "bytes": 1310
+      "bytes": 1310,
+      "sha256": "ff1cc7fa2c93895a27ed1f4df603613a94a42f60b84310d82db28812bd6793dd"
+    },
+    {
+      "path": "lib/analytics.ts",
+      "bytes": 688,
+      "sha256": "ac191374c4b436db3785ed91dd76387e6a9cbdd59ac8c9cf0e7fb0fbf881d600"
     },
     {
       "path": "lib/barbershopSoundscape.ts",
-      "bytes": 6040
+      "bytes": 11198,
+      "sha256": "3045c0bf11ad58e57009eb27d928dc0fde66da2645a21744995bc8f9569e6436"
     },
     {
-      "path": "scripts/test-real-space-v2.mjs",
-      "bytes": 4449
+      "path": "package.json",
+      "bytes": 2438,
+      "sha256": "02c9b5085eaf2e40de5f97ea0aaf6719a938d46c92b2072ece8e7d0e27107d4b"
+    },
+    {
+      "path": "scripts/test-hotspot-forward-visibility.mjs",
+      "bytes": 1444,
+      "sha256": "b5a9c46cfc44b1fcf90f93a149daeb43228b61e0a3374498b8bdbd923330b757"
+    },
+    {
+      "path": "scripts/test-mobile-experience.mjs",
+      "bytes": 3577,
+      "sha256": "5c287eeb064de01230faf859cc56d1034342852ab1c25c79b68614a4fd8467b1"
+    },
+    {
+      "path": "scripts/test-mobile-parity.mjs",
+      "bytes": 2633,
+      "sha256": "1b10e912813e9193b1ac9a2ea6335397826697f03402299b7b4c27b5f54d47c0"
     }
   ]
 }

@@ -9,7 +9,7 @@
     "typecheck": "tsc --noEmit",
     "validate:source": "node scripts/validate-source.mjs",
     "test:scroll": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs",
-    "test:experience": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs scripts/test-premium-environment-update.mjs scripts/test-real-space-v2.mjs scripts/test-motion-optimization.mjs scripts/test-menu-overlays.mjs scripts/test-entry-ending.mjs scripts/test-hybrid-premium.mjs scripts/test-reference-art-direction.mjs scripts/test-initial-view.mjs scripts/test-hotspot-forward-visibility.mjs scripts/test-mobile-experience.mjs scripts/test-thematic-entry.mjs",
+    "test:experience": "node --experimental-strip-types --test scripts/test-scroll-experience.mjs scripts/test-premium-environment-update.mjs scripts/test-real-space-v2.mjs scripts/test-motion-optimization.mjs scripts/test-menu-overlays.mjs scripts/test-entry-ending.mjs scripts/test-hybrid-premium.mjs scripts/test-reference-art-direction.mjs scripts/test-initial-view.mjs scripts/test-hotspot-forward-visibility.mjs scripts/test-mobile-experience.mjs scripts/test-mobile-parity.mjs scripts/test-thematic-entry.mjs",
     "test:real-space": "node --experimental-strip-types --test scripts/test-real-space-v2.mjs",
     "test:motion": "node --experimental-strip-types --test scripts/test-motion-optimization.mjs",
     "test:menu": "node --experimental-strip-types --test scripts/test-menu-overlays.mjs",
@@ -19,6 +19,7 @@
     "test:view": "node --experimental-strip-types --test scripts/test-initial-view.mjs",
     "test:hotspots": "node --experimental-strip-types --test scripts/test-hotspot-forward-visibility.mjs",
     "test:mobile": "node --experimental-strip-types --test scripts/test-mobile-experience.mjs",
+    "test:mobile-parity": "node --experimental-strip-types --test scripts/test-mobile-parity.mjs",
     "test:thematic-entry": "node --test scripts/test-thematic-entry.mjs"
   },
   "dependencies": {

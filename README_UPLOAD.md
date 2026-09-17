@@ -1,41 +1,48 @@
-# Lamim's V2.1 — Atmosphere & Tour Ending
+# Lamim's V2.3 — Mobile Spatial Hotspots + Mobile Parity + Jazz
 
-> **IMPORTANTE: SUBA SOMENTE NA BRANCH `v2-real-space`. NÃO SUBA NA `main`.**
+## ⚠️ ANTES DE SUBIR
 
-Este pacote é um delta pequeno sobre a Real Space V2 que já está na branch `v2-real-space`.
+**CONFIRA QUE O GITHUB ESTÁ NA BRANCH `v2-real-space`. NÃO SUBA ESTE PATCH NA `main`.**
 
-## Mudanças
+A `main` deve continuar preservando a versão apresentada ao Bento e aos irmãos enquanto a V2 estiver em avaliação.
 
-- final do tour passa a girar para a parede das três cadeiras, em vez de resolver visualmente no sofá de espera;
-- áudio antigo `room-tone.wav` deixa de ser usado pela experiência;
-- botão de som passa a controlar um soundscape procedural leve de barbearia, sem música protegida por direitos autorais;
-- soundscape combina room tone filtrado, hum muito baixo, cliques discretos de tesoura e pulsos ocasionais de máquina;
-- adicionados quadros minimalistas na parede do fundo;
-- adicionada mesa lateral discreta na área de espera;
-- adicionadas toalhas dobradas nas estações;
-- nenhum elemento existente importante foi removido;
-- `main` deve continuar preservada como versão apresentada ao cliente.
+## O que muda
 
-## Upload direto pelo GitHub
+- No mobile, as informações contextuais deixam de aparecer como um card grande no rodapé.
+- O mesmo hotspot espacial usado no desktop passa a aparecer sobre a cadeira/espelho/objeto também no mobile.
+- O hotspot ganha escala própria para telas pequenas e animação curta de entrada.
+- O hotspot continua clicável e abre o mesmo painel de conteúdo.
+- O HUD inferior mobile fica mínimo: gesto inicial + progresso, sem duplicar informação contextual.
+- Mantém navegação por swipe/scroll, sem joystick.
+- Inclui paridade mobile pendente: botão de som e menu compactos no topo.
+- Inclui ambiente + jazz procedural original, com início diretamente no toque para compatibilidade com iOS/Safari.
+- Mantém final do tour voltado para as cadeiras e melhora o card final em 320–360 px.
+- Preserva a entrada temática/loading atualmente existente no projeto: este patch NÃO substitui `ExperienceShell.tsx`.
 
-1. Confirme no topo do repositório que a branch selecionada é **`v2-real-space`**.
-2. Extraia este ZIP no computador.
-3. Dentro da branch `v2-real-space`, use **Add file → Upload files**.
-4. Arraste o conteúdo desta pasta mantendo os mesmos caminhos.
-5. Confirme novamente que o commit será feito em `v2-real-space`.
-6. Commit sugerido: `feat: refine V2 tour ending ambience and atmosphere`.
+## Upload pelo GitHub
 
-## Validação recomendada depois do upload
+1. Abra `oluisvi/Lamim-s-Barbershop`.
+2. Selecione **`v2-real-space`**.
+3. Confirme o nome da branch mais uma vez.
+4. Extraia o ZIP.
+5. Entre na pasta extraída `lamims-v2-3-mobile-spatial-patch`.
+6. Use **Add file → Upload files** no GitHub e arraste o conteúdo interno mantendo as pastas.
+7. Antes do commit, confirme novamente **`v2-real-space`**.
+8. Commit sugerido: `feat: bring spatial hotspots and jazz parity to mobile`
+9. Aguarde o Preview Deployment da Vercel.
 
-- abra o Preview Deployment da branch na Vercel;
-- role até o final e confirme que o enquadramento termina nas três cadeiras;
-- ligue/desligue o botão de som e confira se o áudio está discreto;
-- valide que quadros/mesa/toalhas não bloqueiam câmera ou circulação;
-- teste desktop e mobile.
+## QA depois do deploy
 
-## Verificação feita antes de empacotar
+No celular real, valide:
 
-- novo teste foi escrito primeiro e falhou contra a V2 anterior;
-- depois da implementação, testes específicos V2 + premium environment passaram;
-- helper de áudio e scroll path passaram no TypeScript estrito isolado;
-- arquivos TS/TSX alterados passaram por parse/transpile de sintaxe.
+- o hotspot aparece visualmente sobre o objeto em foco;
+- não existe mais o grande card contextual na ilha inferior;
+- tocar no hotspot abre o painel correto;
+- hotspot não fica cortado nas bordas em portrait;
+- 320 px, 360 px, 390–430 px e landscape;
+- botão de som ativa/desativa ambiente + jazz;
+- menu mobile abre como bottom sheet;
+- swipe continua movendo o tour e scroll para cima continua reversível;
+- final do tour continua olhando para as cadeiras.
+
+O desktop mantém o mesmo modelo de hotspot espacial.

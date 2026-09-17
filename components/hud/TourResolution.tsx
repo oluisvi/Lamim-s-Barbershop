@@ -36,18 +36,18 @@ export function TourResolution() {
               {business.fresha.rating.toFixed(1)} · {business.fresha.reviewCount} avaliações
             </span>
           </div>
-          <h2 className="font-display text-[clamp(2.6rem,7vw,4.4rem)] leading-[.88] tracking-[-0.05em] text-[var(--color-text-primary)]">Agora só falta você.</h2>
+          <h2 className="font-display text-[clamp(2.25rem,10vw,4.4rem)] leading-[.88] tracking-[-0.05em] text-[var(--color-text-primary)]">Agora só falta você.</h2>
           <p className="mt-3 max-w-xl text-sm leading-6 text-[var(--color-text-secondary)] sm:mt-4">
             Você terminou o percurso de frente para as cadeiras. Pode agendar agora, abrir os serviços ou simplesmente rolar para cima e revisitar o ambiente.
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-6 sm:flex sm:flex-wrap sm:gap-3">
+        <div className="mt-5 grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:mt-6 sm:flex sm:flex-wrap sm:gap-3">
           <a
             href={business.fresha.bookingUrl}
             target="_blank"
             rel="noreferrer"
-            className="focus-ring col-span-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-action-primary)] px-5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-inverse)] transition hover:bg-[var(--color-action-primary-hover)] sm:flex-none sm:text-xs"
+            className="focus-ring inline-flex min-[380px]:col-span-2 min-h-11 items-center justify-center gap-2 rounded-full bg-[var(--color-action-primary)] px-5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--color-text-inverse)] transition hover:bg-[var(--color-action-primary-hover)] sm:flex-none sm:text-xs"
           >
             Agendar meu horário <ArrowRight size={14} />
           </a>
