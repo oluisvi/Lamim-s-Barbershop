@@ -1,7 +1,7 @@
 "use client";
 
-import { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useEffect, useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { AdaptiveDpr } from "@react-three/drei";
 import { BarbershopEnvironment } from "./BarbershopEnvironment";
 import { CameraRig } from "./CameraRig";
@@ -12,7 +12,27 @@ function SceneLoading() {
   return null;
 }
 
-export function SceneCanvas() {
+function SceneReady({ onReady }: { onReady: () => void }) {
+  const { gl, scene, camera } = useThree();
+  const renderedFrames = useRef(0);
+  const notified = useRef(false);
+
+  useEffect(() => {
+    gl.compile(scene, camera);
+  }, [camera, gl, scene]);
+
+  useFrame(() => {
+    if (notified.current) return;
+    renderedFrames.current += 1;
+    if (renderedFrames.current < 3) return;
+    notified.current = true;
+    onReady();
+  });
+
+  return null;
+}
+
+export function SceneCanvas({ onReady }: { onReady: () => void }) {
   const quality = useExperienceStore((s) => s.quality);
   const dpr: [number, number] = quality === "high" ? [1, 1.5] : quality === "low" ? [0.7, 0.9] : [0.85, 1.15];
 
@@ -31,6 +51,7 @@ export function SceneCanvas() {
         <CameraRig />
         <SceneHotspots />
         <AdaptiveDpr />
+        <SceneReady onReady={onReady} />
       </Suspense>
     </Canvas>
   );

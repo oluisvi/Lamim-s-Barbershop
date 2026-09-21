@@ -3,6 +3,8 @@ export type Vec3Tuple = [number, number, number];
 // APPROX_SPATIAL_LAYOUT — recalibrate these points against the real Lamim's model later.
 // The tour follows one continuous forward path. Camera orientation is derived from the
 // path tangent so scrolling down always feels like moving forward through the shop.
+// The final leg intentionally turns toward the three-chair station wall so the tour
+// resolves on the service area rather than the waiting sofa.
 export const SCROLL_CAMERA_POINTS: Vec3Tuple[] = [
   [0, 1.7, 9.2],
   [0.55, 1.69, 7.55],
@@ -17,6 +19,7 @@ export const SCROLL_CAMERA_POINTS: Vec3Tuple[] = [
   [-2.55, 1.67, 4.9],
   [-0.65, 1.66, 3.35],
   [0, 1.65, 1.05],
+  [1.45, 1.65, 0.9],
 ];
 
 // Local-space look offsets. Forward direction always comes from the tangent;
@@ -35,6 +38,7 @@ export const SCROLL_LOOK_SIDE_OFFSETS = [
   -0.18,
   0.08,
   0,
+  0,
 ] as const;
 
 export const SCROLL_LOOK_HEIGHT_OFFSETS = [
@@ -51,4 +55,5 @@ export const SCROLL_LOOK_HEIGHT_OFFSETS = [
   0.02,
   -0.03,
   -0.12,
+  -0.06,
 ] as const;

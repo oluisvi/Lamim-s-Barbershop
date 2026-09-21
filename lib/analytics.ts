@@ -7,7 +7,8 @@ export type LamimsEvent =
   | "team_member_viewed"
   | "instagram_clicked"
   | "directions_clicked"
-  | "booking_clicked";
+  | "booking_clicked"
+  | "sound_toggled";
 
 export function trackEvent(event: LamimsEvent, payload: Record<string, string | number | boolean> = {}) {
   if (typeof window === "undefined") return;

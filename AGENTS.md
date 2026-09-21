@@ -45,3 +45,14 @@ Environment prototype procedural classificado como `APPROX_SPATIAL_LAYOUT`. Não
 
 ## Próxima evolução recomendada
 Levantamento do espaço real → GLB/GLTF otimizado → calibrar coordenadas dos hotspots → profiling desktop/mobile → desligar demo mode após aprovação do cliente.
+
+## Branch safety for Real Space V2
+- All Real Space V2 experiments and refinements belong on `v2-real-space`.
+- Keep `main` as the client-presented baseline until the client explicitly approves a merge.
+- Before committing or uploading V2 changes, verify the active branch is `v2-real-space`.
+
+## Atmosphere V2
+- The tour should resolve on the barber-chair service area, not the waiting sofa.
+- Ambient audio must feel like an interior barbershop soundscape; avoid traffic-dominant source audio and copyrighted music by default.
+- Add atmosphere through restrained props, wall art, grooming tools, towels, plants and material detail without cluttering circulation or reducing mobile performance.
+

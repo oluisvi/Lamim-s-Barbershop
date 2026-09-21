@@ -73,3 +73,35 @@ test('real-space V2 HUD uses semantic color surfaces', async () => {
   assert.match(files[1], /Agendar horário/);
   assert.match(files[4], /Agendar horário no Fresha/);
 });
+
+test('tour resolves facing the three-chair station wall instead of the waiting sofa', async () => {
+  const path = await source('data/scroll-path.ts');
+  assert.match(path, /\[1\.45,\s*1\.65,\s*0\.9\]/);
+  assert.match(path, /SCROLL_LOOK_SIDE_OFFSETS[\s\S]*0,\s*0,?\s*\] as const/);
+});
+
+test('sound toggle drives a procedural barbershop ambience instead of the traffic-heavy room-tone file', async () => {
+  const [shell, soundscape] = await Promise.all([
+    source('components/experience/ExperienceShell.tsx'),
+    source('lib/barbershopSoundscape.ts'),
+  ]);
+
+  assert.match(shell, /createBarbershopSoundscape/);
+  assert.doesNotMatch(shell, /room-tone\.wav|<audio/);
+  assert.match(soundscape, /AudioContext/);
+  assert.match(soundscape, /createBufferSource/);
+  assert.match(soundscape, /scheduleScissorClicks/);
+});
+
+test('environment adds restrained atmosphere props while preserving the real-space anchors', async () => {
+  const environment = await source('components/three/BarbershopEnvironment.tsx');
+  assert.match(environment, /function WallArtGallery/);
+  assert.match(environment, /function WaitingSideTable/);
+  assert.match(environment, /function FoldedTowels/);
+  assert.match(environment, /<WallArtGallery/);
+  assert.match(environment, /<WaitingSideTable/);
+  assert.match(environment, /<WaitingArea/);
+  assert.match(environment, /<Cactus/);
+  assert.match(environment, /<ToolTrolley/);
+});
+
